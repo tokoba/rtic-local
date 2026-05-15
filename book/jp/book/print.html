@@ -1,0 +1,2951 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Real-Time Interrupt-driven Concurrency</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-4cf9622b.svg">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-8661117f.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d86eca13.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Real-Time Interrupt-driven Concurrency</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/rtic-rs/rtic" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="はじめに-1"><a href="#はじめに-1" class="header">はじめに</a></h1>
+<div align="center"><img width="300" height="300" src="RTIC.svg"></div>
+
+<div style="font-size: 6em; font-weight: bolder;" align="center">RTIC</div>
+
+<h1 align="center">ハードウェアアクセラレーションを備えた Rust RTOS</h1>
+
+<p align="center">リアルタイムシステムを構築するための並行性フレームワーク</p>
+
+<h1 id="はじめに"><a class="header" href="#はじめに">はじめに</a></h1>
+<p>この本には、Real-Time Interrupt-driven Concurrency
+(RTIC) フレームワークのユーザー向けドキュメントが含まれています。API リファレンスは<a href="../../api">こちら</a>で利用できます。</p>
+<p>これは RTIC v2.x のドキュメントです。</p>
+<p>以前のリリース:
+<a href="/1">RTIC v1.x</a> | <a href="https://github.com/rtic-rs/rtic/tree/release/v0.5">RTIC v0.5.x（非サポート）</a> | <a href="https://github.com/rtic-rs/rtic/tree/release/v0.4">RTFM v0.4.x（非サポート）</a></p>
+<p><a href="https://crates.io/crates/rtic"><img src="https://img.shields.io/crates/v/rtic" alt="crates.io"></a>
+<a href="https://docs.rs/rtic"><img src="https://docs.rs/rtic/badge.svg" alt="docs.rs"></a>
+<a href="https://rtic.rs/"><img src="https://img.shields.io/badge/web-rtic.rs-red.svg?style=flat&amp;label=book&amp;colorB=d33847" alt="book"></a>
+<a href="https://matrix.to/#/#rtic:matrix.org"><img src="https://img.shields.io/matrix/rtic:matrix.org" alt="matrix"></a>
+<a href="https://rtic.rs/meeting"><img src="https://hackmd.io/badge.svg" alt="Meeting notes"></a></p>
+<h2 id="rtic-は-rtos-ですか"><a class="header" href="#rtic-は-rtos-ですか">RTIC は RTOS ですか？</a></h2>
+<p>RTIC が RTOS かどうかはよくある質問であり、あなたのバックグラウンドによって答えは異なる場合があります。RTIC の開発者の観点では、RTIC は、より古典的なソフトウェアカーネルではなく、Cortex-M MCU 上の NVIC や RISC-V 上の CLIC などのハードウェアを利用してスケジューリングを実行する、ハードウェアアクセラレーションされた RTOS です。</p>
+<p>コミュニティにおけるもう 1 つの一般的な見方では、RTIC にはソフトウェアカーネルが存在せず、外部 HAL に依存していることから、RTIC は並行性フレームワークであるとされています。</p>
+<h2 id="rtic---過去現在そして未来"><a class="header" href="#rtic---過去現在そして未来">RTIC - 過去、現在、そして未来</a></h2>
+<p>このセクションでは、RTIC モデルの背景を説明します。要点だけ知りたい場合は、セクション <a href="#rtic-the-model">RTIC モデル</a> に進んでください。</p>
+<p>RTIC フレームワークは、スウェーデンの Luleå University of Technology (LTU) におけるリアルタイムシステム研究を出発点としています。RTIC は、<a href="https://web.archive.org/web/20230325133224/http://timber-lang.org/">Timber</a> 言語の並行モデル、<a href="https://www.diva-portal.org/smash/get/diva2:1005680/FULLTEXT01.pdf">RTFM-SRP</a> ベースのスケジューラ、<a href="https://ltu.diva-portal.org/smash/get/diva2:1013248/FULLTEXT01.pdf">RTFM-core</a> 言語、および <a href="https://ltu.diva-portal.org/smash/get/diva2:1013030/FULLTEXT01.pdf">Abstract Timer</a> 実装から着想を得ています。関連研究の完全な一覧については、<a href="http://ltu.diva-portal.org/smash/resultList.jsf?query=RTFM&amp;language=en&amp;searchType=SIMPLE&amp;noOfRows=50&amp;sortOrder=author_sort_asc&amp;sortOrder2=title_sort_asc&amp;onlyFullText=false&amp;sf=all&amp;aq=%5B%5B%5D%5D&amp;aqe=%5B%5D&amp;aq2=%5B%5B%5D%5D&amp;af=%5B%5D">RTFM</a> および <a href="http://ltu.diva-portal.org/smash/resultList.jsf?query=RTIC&amp;language=en&amp;searchType=SIMPLE&amp;noOfRows=50&amp;sortOrder=author_sort_asc&amp;sortOrder2=title_sort_asc&amp;onlyFullText=false&amp;sf=all&amp;aq=%5B%5B%5D%5D&amp;aqe=%5B%5D&amp;aq2=%5B%5B%5D%5D&amp;af=%5B%5D">RTIC</a> の出版物を参照してください。</p>
+<h2 id="stack-resource-policy-ベースのスケジューリング"><a class="header" href="#stack-resource-policy-ベースのスケジューリング">Stack Resource Policy ベースのスケジューリング</a></h2>
+<p><a href="https://link.springer.com/article/10.1007/BF00365393">Stack Resource Policy (SRP)</a> ベースの並行性とリソース管理は、RTIC フレームワークの中核にあります。SRP モデル自体は <a href="https://ieeexplore.ieee.org/document/57058">Priority Inheritance Protocols</a> を拡張したものであり、シングルコアスケジューリングに対して優れた特性をいくつも提供します。たとえば次のとおりです。</p>
+<ul>
+<li>プリエンプティブで、デッドロックや競合状態のないスケジューリング</li>
+<li>リソース効率
+<ul>
+<li>タスクは単一の共有スタック上で実行される</li>
+<li>タスクは共有リソースに wait-free にアクセスしつつ、run-to-completion で実行される</li>
+</ul>
+</li>
+<li>単一の（名前付き）クリティカルセクションによって優先度逆転が有界となる、予測可能なスケジューリング</li>
+<li>静的解析に適した理論的基盤（例: タスクの応答時間やシステム全体のスケジューラビリティ）</li>
+</ul>
+<p>SRP には、システム全体に関わる一連の要件があります:</p>
+<ul>
+<li>各タスクには静的優先度が関連付けられていること、</li>
+<li>タスクはシングルコア上で実行されること、</li>
+<li>タスクは run-to-completion でなければならないこと、および</li>
+<li>リソースは LIFO 順で取得/ロックされなければならないこと。</li>
+</ul>
+<h2 id="srp-の解析"><a class="header" href="#srp-の解析">SRP の解析</a></h2>
+<p>SRP ベースのスケジューリングでは、各リソースの静的な <em>天井値</em> (𝝅) を計算するために、静的優先度タスクの集合と、それらの共有リソースへのアクセスが既知である必要があります。静的リソース <em>天井値</em> 𝝅(r) は、リソース <code>r</code> にアクセスする任意のタスクの静的優先度の最大値を表します。</p>
+<h3 id="例"><a class="header" href="#例">例</a></h3>
+<p>共有リソース <code>R</code> にアクセスする 2 つのタスク <code>A</code>（優先度 <code>p(A) = 2</code>）と <code>B</code>（優先度 <code>p(B) = 4</code>）を仮定します。<code>R</code> の静的天井値は 4 です（<code>𝝅(R) = max(p(A) = 2, p(B) = 4) = 4</code> から計算されます）。</p>
+<p>この例をグラフで表すと次のようになります:</p>
+<pre class="mermaid">graph LR
+    A["p(A) = 2"] --&gt; R
+    B["p(B) = 4"] --&gt; R
+    R["𝝅(R) = 4"]
+</pre>
+
+<h2 id="rtic-ハードウェアアクセラレーションされたリアルタイムスケジューラ"><a class="header" href="#rtic-ハードウェアアクセラレーションされたリアルタイムスケジューラ">RTIC: ハードウェアアクセラレーションされたリアルタイムスケジューラ</a></h2>
+<p>SRP 自体は、動的優先度スケジューリングと静的優先度スケジューリングの両方に適合します。RTIC の実装では、静的優先度スケジューリングを高速化するために、基盤となるハードウェアを活用します。</p>
+<p><code>ARM Cortex-M</code> アーキテクチャでは、各割り込みベクタエントリ <code>v[i]</code> には、関数ポインタ (<code>v[i].fn</code>)、静的優先度 (<code>v[i].priority</code>)、enabled ビット (<code>v[i].enabled</code>) および pending ビット (<code>v[i].pending</code>) が関連付けられています。</p>
+<p>割り込み <code>i</code> は、次の条件のもとでハードウェアによりスケジュール（実行）されます:</p>
+<ol>
+<li><code>pending</code> かつ <code>enabled</code> であり、その優先度が（オプションの <code>BASEPRI</code>）レジスタより高いこと、および</li>
+<li>1 を満たす割り込みの中で最も高い優先度を持つこと。</li>
+</ol>
+<p>最初の条件 (1) はフィルタと見なすことができ、これにより RTIC は、どのタスクの開始を許可し（また、どのタスクの開始を阻止するか）を制御できます。</p>
+<p>一方、シングルコア静的スケジューリングに対する SRP モデルでは、タスクは次の条件のもとでスケジュール（実行）されるべきであるとされています:</p>
+<ol>
+<li>実行が <code>requested</code> されており、その静的優先度が現在のシステム天井値 (𝜫) より高いこと</li>
+<li>1 を満たすタスクの中で最も高い静的優先度を持つこと。</li>
+</ol>
+<p>その類似性は際立っており、これは偶然でも幸運でも単なる一致でもありません。ハードウェアは、リアルタイムスケジューリングを念頭に置いて巧妙に設計されているのです。</p>
+<p>SRP スケジューリングをハードウェアにマッピングするには、システム天井値 (𝜫) をもう少し詳しく見る必要があります。SRP では、𝜫 は現在保持されているリソースの優先度天井値の最大値として計算されるため、システム動作中に動的に変化します。</p>
+<h3 id="例-1"><a class="header" href="#例-1">例</a></h3>
+<p>上記のタスクモデルを仮定します。アイドル状態のシステムから開始すると、𝜫 は 0 です（どのタスクもリソースを保持していません）。<code>A</code> が実行要求されたとすると、直ちにスケジュールされます。<code>A</code> がリソース <code>R</code> を取得（ロック）すると仮定します。その取得（<code>R</code> のロック）の間は、<code>B</code> へのいかなる要求も開始をブロックされます（𝜫 = <code>max(𝝅(R) = 4) = 4</code> であり、<code>p(B) = 4</code> なので、SRP のスケジューリング条件 1 は満たされません）。</p>
+<h2 id="マッピング"><a class="header" href="#マッピング">マッピング</a></h2>
+<p>静的優先度の SRP ベーススケジューリングを Cortex M ハードウェアへマッピングするのは簡単です:</p>
+<ul>
+<li>各タスク <code>t</code> は、対応する関数 <code>v[i].fn = t</code> を持つ割り込みベクタインデックス <code>i</code> にマッピングされ、静的優先度 <code>v[i].priority = p(t)</code> が与えられます。</li>
+<li>現在のシステム天井値は <code>BASEPRI</code> レジスタにマッピングされるか、またはそれに応じて割り込みイネーブルビットをマスクすることで実装されます。</li>
+</ul>
+<h3 id="例-2"><a class="header" href="#例-2">例</a></h3>
+<p>ここまでの例では、ARM Cortex M [Nested Vectored Interrupt Controller (NVIC)][NVIC] のスナップショットは、（タスク <code>A</code> が実行のために pending 状態にされた後）次のような構成になる可能性があります。</p>
+<pre><code>| インデックス | Fn  | 優先度 | 有効 | 保留中 |
+| ----- | --- | -------- | ------- | ------- |
+| 0     | A   | 2        | true    | true    |
+| 1     | B   | 4        | true    | false   |
+
+[NVIC]: https://developer.arm.com/documentation/ddi0337/h/nested-vectored-interrupt-controller/about-the-nvic
+
+（後で説明するように、割り込みベクタと例外ベクタの割り当てはユーザーに委ねられます。）
+
+
+claim（lock(r)）は現在のシステム天井値（𝜫）を変更し、*名前付き*クリティカルセクションとして実装できます。 
+  - old_ceiling = 𝜫, 𝜫 = 𝝅(r)  
+  - クリティカルセクション内のコードを実行
+  - 𝜫 = old_ceiling
+
+これはリソース保護メカニズムに相当し、`BASEPRI` レジスタを管理するために、クリティカルセクションへの入場時にはわずか 2 つ、退出時には 1 つの機械命令しか必要としません。`BASEPRI` を備えていないアーキテクチャでは、名前付きクリティカルセクションへの入出時に割り込みを無効化/有効化する一連の機械命令によってシステム天井値を実装できます。必要な機械命令数は、更新しなければならないマスクレジスタの数によって異なります（単一の機械操作で最大 32 個の割り込みを扱えるため、M0/M0+ アーキテクチャでは 1 命令で十分です）。RTIC はコンパイル時に天井値とマスキング定数を決定するため、すべての操作は Rust の用語で言えばゼロコストです。
+
+このようにして RTIC は、SRP ベースのプリエンプティブスケジューリングと、ゼロコストでハードウェアにより高速化された実装を融合し、「クラス最高」の保証と性能を実現します。 
+
+このアプローチはきわめて単純であるにもかかわらず、なぜ SRP とハードウェアにより高速化されたスケジューリングは、他のどの主流 RTOS にも採用されていないのでしょうか。
+
+答えは簡単です。一般的に採用されているスレッドモデルは静的解析にあまり向いていません。つまり、コンパイル時にソースコードからタスク/リソースの依存関係を抽出する既知の方法が存在しません（そのため天井値を効率的に計算できず、リソースロックの LIFO 要件も保証できません）。したがって、SRP ベースのスケジューリングは、一般にはどのスレッドベース RTOS にとっても手の届かないものです。 
+
+## RTIC の未来
+
+さまざまな形態の非同期プログラミングが、ますます人気を集め、言語レベルのサポートも広がっています。Rust は協調的マルチタスクのための `async`/`await` API をネイティブに提供しており、コンパイラは実行コンテキストの保存と復元に必要な定型コードを生成します（つまり、各 `await` をまたいで存続するローカル変数群を管理します）。 
+
+Rust 標準ライブラリは、動的に割り当てられるデータ構造のためのコレクションを提供しており、これは実行時に実行コンテキストを管理するのに有用です。しかし、リソース制約の厳しいリアルタイムシステムという文脈では、動的割り当ては問題があります（性能と信頼性の両面においてです。Rust はメモリ不足状態になると *panic* を起こします）。したがって、静的割り当てが望ましいアプローチです！
+
+モデリングの観点では、`async/await` は SRP の run-to-completion 要件を取り払い、2 つの yield point（`await`）の間にある各コード区間を個別のタスクとみなせます。コンパイラは、リソースを保持したまま `await` しようとするあらゆる試みを拒否します（そうしないと、SRP におけるリソース使用の厳密な LIFO 要件が破られるためです）。
+
+では、技術的な話をいったん脇に置くとして、`async/await` は何をもたらすのでしょうか？
+
+答えは、使い勝手の向上です！繰り返し現れるユースケースの 1 つは、タスクが一連の要求を実行し、その結果を待って先へ進むというものです。`async`/`await` がなければ、プログラマはタスクを個別のサブタスクに分割し、何らかの状態表現を維持しなければならず（そしてサブタスクを選択しながら手動で進行させることになります）。`async/await` を使うと、各 yield point（`await`）は本質的に 1 つの状態を表し、進行の仕組みは `Futures` によってコンパイル時に自動的に構築されます。 
+
+Rust の `async`/`await` サポートは、依然として不完全であったり、現在も開発中であったりします。それでも、一般的なユースケースの大半はカバーしており、本番利用可能と見なせます。 
+
+重要な性質として、future は合成可能です。そのため、利用可能な future のいずれか、すべて、または任意の組み合わせを await できます（これにより、たとえばタイムアウトや非同期エラーを迅速に処理できます）。
+
+## RTIC モデル
+
+RTIC の `app` は、シングルコアアプリケーション向けの宣言的かつ実行可能なシステムモデルであり、（`init`、`idle`、*ハードウェア*、*ソフトウェア* の）タスク群によって操作される（`local` および `shared` の）リソース群を定義します。要するに、`init` タスクは他のどのタスクよりも先に実行され、リソース群（`local` と `shared`）を返します。タスクは関連付けられた静的優先度に基づいてプリエンプティブに実行され、`idle` は最も低い優先度を持ちます（そしてバックグラウンド処理や、何らかのイベントで起床するまでシステムをスリープさせるために使用できます）。ハードウェアタスクは基盤となるハードウェア割り込みに束縛される一方、ソフトウェアタスクは非同期エグゼキュータによってスケジュールされます（ソフトウェアタスクの優先度ごとに 1 つ）。 
+
+コンパイル時に、タスク/リソースモデルは SRP のもとで解析され、次の優れた特性を持つ実行可能コードが生成されます：
+
+- 単一の共有スタック上で、競合のないリソースアクセスとデッドロックのない実行が保証される（SRP のおかげ）
+  - ハードウェアタスクのスケジューリングはハードウェアによって直接行われ、
+  - ソフトウェアタスクのスケジューリングは、そのアプリケーション向けに自動生成された async エグゼキュータによって行われます。
+
+RTIC API の設計は、SRP の要件と Rust の健全性規則の両方が常に満たされることを保証するため、この実行可能モデルは構成により正しいものになります。全体として、生成されたコードは手書き実装と比べて追加のオーバーヘッドを生じさせないため、Rust の用語で言えば RTIC は並行性に対するゼロコスト抽象化を提供します。</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="新しいプロジェクトを開始する"><a class="header" href="#新しいプロジェクトを開始する">新しいプロジェクトを開始する</a></h1>
+<p>RTIC プロジェクトをゼロから開始する場合の推奨事項として、
+RTIC の <a href="https://github.com/rtic-rs/defmt-app-template"><code>defmt-app-template</code></a> に従うことをお勧めします。</p>
+<p>ARMv6-M または ARMv8-M-base アーキテクチャを対象とする場合は、注意すべきハードウェア上の制約の詳細について <a href="#ターゲットアーキテクチャ">ターゲットアーキテクチャ</a> の節を参照してください。</p>
+<p>これにより、<a href="https://github.com/knurling-rs/defmt/"><code>defmt</code></a> による RTT ロギングのサポートと、<a href="https://github.com/knurling-rs/flip-link/"><code>flip-link</code></a> を使用したスタックオーバーフロー
+保護を備えた RTIC アプリケーションを利用できます。コミュニティによって提供されている多数のサンプルもあります:</p>
+<p>参考として、<a href="https://github.com/rtic-rs/rtic/tree/master/examples">RTIC examples</a> を参照してください。</p>
+<h2 id="risc-v-デバイスでの-rtic"><a class="header" href="#risc-v-デバイスでの-rtic">RISC-V デバイスでの RTIC</a></h2>
+<p>RTIC は当初 ARM Cortex-M 向けに開発されましたが、RISC-V デバイスでも RTIC を使用できます。
+ただし、RISC-V のエコシステムはより異種混在的です。
+この問題に対処するため、現在 RTIC は 3 種類の異なるバックエンドを実装しています:</p>
+<ul>
+<li>
+<p><strong><code>riscv-esp32c3-backend</code></strong>: このバックエンドは ESP32-C3 SoC をサポートします。
+これらのデバイスでは、RTIC は Cortex-M 版と非常によく似ています。</p>
+</li>
+<li>
+<p><strong><code>riscv-esp32c6-backend</code></strong>: このバックエンドは ESP32-C6 SoC をサポートします。
+これらのデバイスでは、RTIC は Cortex-M 版と非常によく似ています。</p>
+</li>
+<li>
+<p><strong><code>riscv-mecall-backend</code></strong>: このバックエンドは <strong>あらゆる</strong> RISC-V デバイスをサポートします。
+このバックエンドでは、保留中のタスクが Machine Environment Call 例外をトリガーします。
+この例外ソースのハンドラは、優先度に従って保留中のタスクをディスパッチします。
+このバックエンドの動作は <code>riscv-clint-backend</code> と同等です。
+このバックエンドの主な違いは、すべてのタスクが <strong>必ず</strong> <a href="#ソフトウェアタスクと-spawn">ソフトウェアタスク</a> でなければならないことです。
+さらに、<code>#[app]</code> 属性にディスパッチャの一覧を指定する必要はありません。RTIC がコンパイル時にそれらを生成するためです。</p>
+</li>
+<li>
+<p><strong><code>riscv-clint-backend</code></strong>: このバックエンドは CLINT ペリフェラルを備えたデバイスをサポートします。
+これは <code>riscv-mecall-backend</code> と同等ですが、例外をトリガーする代わりに、CLINT の <code>MSIP</code> レジスタを介してソフトウェア割り込みをトリガーします。</p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="rtic-を例で学ぶ"><a class="header" href="#rtic-を例で学ぶ">RTIC を例で学ぶ</a></h1>
+<p>この本のこのパートでは、複雑さが段階的に増していく例を通して、
+RTIC フレームワークを新しいユーザーに紹介します。</p>
+<p>この本のこのパートにあるすべての例は、
+<code>examples</code> ディレクトリにある <a href="https://github.com/rtic-rs/rtic/tree/master/rtic/examples">RTICリポジトリ</a> の一部です。
+これらの例は QEMU 上で実行可能であり（Cortex M3 ターゲットをエミュレート）、
+そのため、読み進めるのに特別なハードウェアは必要ありません。</p>
+<h2 id="例を実行する"><a class="header" href="#例を実行する">例を実行する</a></h2>
+<p>QEMU で例を実行するには、<code>qemu-system-arm</code> プログラムが必要です。
+QEMU を含む組み込み開発環境のセットアップ方法については、
+<a href="https://rust-embedded.github.io/book/intro/install.html">the embedded Rust book</a> の手順を参照してください。</p>
+<p>QEMU を使って <code>examples/</code> にある例をローカルで実行するには:</p>
+<pre><code>cargo xtask qemu
+</code></pre>
+<p>これにより、デフォルトの <code>thumbv7m-none-eabi</code> デバイス <code>lm3s6965</code> に対して、すべての例が実行されます。</p>
+<p>実行する例を絞り込むには、<code>--example &lt;example name&gt;</code> フラグを使用します。ここで名前は例のファイル名です。</p>
+<p>依存関係が整っているとすると、次を実行すると:</p>
+<pre><code class="language-console">$ cargo xtask qemu --example locals
+</code></pre>
+<p>次の出力が得られます:</p>
+<pre><code class="language-console">   Finished dev [unoptimized + debuginfo] target(s) in 0.07s
+    Running `target/debug/xtask qemu --example locals`
+INFO  xtask &gt; Testing for platform: Lm3s6965, backend: Thumbv7
+INFO  xtask::run &gt; 👟 Build example locals (thumbv7m-none-eabi, release, "test-critical-section,thumbv7-backend", in examples/lm3s6965)
+INFO  xtask::run &gt; ✅ Success.
+INFO  xtask::run &gt; 👟 Run example locals in QEMU (thumbv7m-none-eabi, release, "test-critical-section,thumbv7-backend", in examples/lm3s6965)
+INFO  xtask::run &gt; ✅ Success.
+INFO  xtask::results &gt; ✅ Success: Build example locals (thumbv7m-none-eabi, release, "test-critical-section,thumbv7-backend", in examples/lm3s6965)
+INFO  xtask::results &gt; ✅ Success: Run example locals in QEMU (thumbv7m-none-eabi, release, "test-critical-section,thumbv7-backend", in examples/lm3s6965)
+INFO  xtask::results &gt; 🚀🚀🚀 All tasks succeeded 🚀🚀🚀
+</code></pre>
+<p>例が正常に通っており、これが RTIC の CI セットアップの一部でもあるのは素晴らしいことですが、この本の目的上、実際のプログラム出力を見るには <code>--verbose</code> フラグ、短くは <code>-v</code> を追加する必要があります:</p>
+<pre><code class="language-console">❯ cargo xtask qemu --verbose --example locals
+    Finished dev [unoptimized + debuginfo] target(s) in 0.03s
+     Running `target/debug/xtask qemu --example locals --verbose`
+ DEBUG xtask &gt; Stderr of child processes is inherited: false
+ DEBUG xtask &gt; Partial features: false
+ INFO  xtask &gt; Testing for platform: Lm3s6965, backend: Thumbv7
+ INFO  xtask::run &gt; 👟 Build example locals (thumbv7m-none-eabi, release, "test-critical-section,thumbv7-backend", in examples/lm3s6965)
+ INFO  xtask::run &gt; ✅ Success.
+ INFO  xtask::run &gt; 👟 Run example locals in QEMU (thumbv7m-none-eabi, release, "test-critical-section,thumbv7-backend", in examples/lm3s6965)
+ INFO  xtask::run &gt; ✅ Success.
+ INFO  xtask::results &gt; ✅ Success: Build example locals (thumbv7m-none-eabi, release, "test-critical-section,thumbv7-backend", in examples/lm3s6965)
+    cd examples/lm3s6965 &amp;&amp; cargo build --target thumbv7m-none-eabi --features test-critical-section,thumbv7-backend --release --example locals
+ DEBUG xtask::results &gt;
+cd examples/lm3s6965 &amp;&amp; cargo build --target thumbv7m-none-eabi --features test-critical-section,thumbv7-backend --release --example locals
+Stderr:
+    Finished release [optimized] target(s) in 0.02s
+ INFO  xtask::results &gt; ✅ Success: Run example locals in QEMU (thumbv7m-none-eabi, release, "test-critical-section,thumbv7-backend", in examples/lm3s6965)
+    cd examples/lm3s6965 &amp;&amp; cargo run --target thumbv7m-none-eabi --features test-critical-section,thumbv7-backend --release --example locals
+ DEBUG xtask::results &gt;
+cd examples/lm3s6965 &amp;&amp; cargo run --target thumbv7m-none-eabi --features test-critical-section,thumbv7-backend --release --example locals
+Stdout:
+bar: local_to_bar = 1
+foo: local_to_foo = 1
+idle: local_to_idle = 1
+
+Stderr:
+    Finished release [optimized] target(s) in 0.02s
+     Running `qemu-system-arm -cpu cortex-m3 -machine lm3s6965evb -nographic -semihosting-config enable=on,target=native -kernel target/thumbv7m-none-eabi/release/examples/locals`
+Timer with period zero, disabling
+
+ INFO  xtask::results &gt; 🚀🚀🚀 All tasks succeeded 🚀🚀🚀
+</code></pre>
+<p>出力の末尾付近にある <code>Stdout:</code> の後の内容を確認してください。プログラム出力には次の行が含まれているはずです:</p>
+<pre><code class="language-console">bar: local_to_bar = 1
+foo: local_to_foo = 1
+idle: local_to_idle = 1
+</code></pre>
+<blockquote>
+<p><strong>注記</strong>:
+<code>cargo xtask</code> のその他の便利なオプションについては、次を参照してください:</p>
+<pre><code>cargo xtask qemu --help
+</code></pre>
+<p><code>--platform</code> フラグを使うと、どのデバイス上で例を実行するかを変更できます。
+現在は <code>lm3s6965</code> が最もよくサポートされており、ARM と RISC-V の両方を含む
+他のデバイスのサポート拡充も進められています</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="app-属性と-rtic-アプリケーション"><a class="header" href="#app-属性と-rtic-アプリケーション"><code>#[app]</code> 属性と RTIC アプリケーション</a></h1>
+<h2 id="app-属性の要件"><a class="header" href="#app-属性の要件"><code>app</code> 属性の要件</a></h2>
+<p>すべての RTIC アプリケーションは <a href="../../api/rtic_macros/attr.app.html"><code>app</code></a> 属性（<code>#[app(..)]</code>）を使用します。この属性は、RTIC アプリケーションを含む <code>mod</code> アイテムにのみ適用されます。</p>
+<p><code>app</code> 属性には、値として <em>パス</em> を取る必須の <code>device</code> 引数があります。これは、<a href="https://crates.io/crates/svd2rust"><code>svd2rust</code></a> <strong>v0.14.x</strong> 以降を使用して生成された <em>ペリフェラルアクセスクレート</em>（PAC）を指す完全なパスでなければなりません。</p>
+<p><code>app</code> 属性は適切なエントリポイントに展開されるため、<a href="https://docs.rs/cortex-m-rt-macros/latest/cortex_m_rt_macros/attr.entry.html"><code>cortex_m_rt::entry</code></a> 属性の使用を置き換えます。</p>
+<h2 id="構造とゼロコスト並行性"><a class="header" href="#構造とゼロコスト並行性">構造とゼロコスト並行性</a></h2>
+<p>RTIC の <code>app</code> は、シングルコアアプリケーション向けの実行可能なシステムモデルであり、<code>init</code>、<code>idle</code>、<em>ハードウェア</em> タスク、<em>ソフトウェア</em> タスクの集合によって操作される <code>local</code> および <code>shared</code> リソースの集合を宣言します。</p>
+<ul>
+<li><code>init</code> はほかのどのタスクよりも前に実行され、<code>local</code> リソースと <code>shared</code> リソースを返します。</li>
+<li>タスク（ハードウェア、ソフトウェアの両方）は、それぞれに関連付けられた静的優先度に基づいてプリエンプティブに実行されます。</li>
+<li>ハードウェアタスクは、対応するハードウェア割り込みに束縛されます。</li>
+<li>ソフトウェアタスクは、非同期エグゼキュータの集合によってスケジュールされます。各ソフトウェアタスク優先度ごとに 1 つのエグゼキュータがあります。</li>
+<li><code>idle</code> は最も低い優先度を持ち、バックグラウンド処理に使用したり、何らかのイベントによって起床されるまでシステムをスリープさせたりできます。</li>
+</ul>
+<p>コンパイル時に、タスク/リソースモデルは Stack Resource Policy（SRP）のもとで解析され、次の優れた特性を持つ実行コードが生成されます。</p>
+<ul>
+<li>単一の共有スタック上で、競合のないリソースアクセスとデッドロックのない実行が保証されます。</li>
+<li>ハードウェアタスクのスケジューリングはハードウェアによって直接行われます。</li>
+<li>ソフトウェアタスクのスケジューリングは、アプリケーション向けに自動生成された async エグゼキュータによって行われます。</li>
+</ul>
+<p>総じて、生成されるコードは手書きの実装と比較して追加のオーバーヘッドを生じさせないため、Rust の用語で言えば、RTIC は並行性に対するゼロコスト抽象化を提供します。</p>
+<h2 id="優先度"><a class="header" href="#優先度">優先度</a></h2>
+<p>RTIC における優先度は、<code>#[task]</code> 属性に渡される <code>priority = N</code>（N は正の数）引数を使用して指定します。すべての <code>#[task]</code> は優先度を持つことができます。タスクの優先度が指定されていない場合は、デフォルト値の 0 に設定されます。</p>
+<p>RTIC の優先度は、値が大きいほど重要であるという方式に従います。たとえば、優先度 2 のタスクは優先度 1 のタスクをプリエンプトします。</p>
+<h2 id="rtic-アプリケーションの例"><a class="header" href="#rtic-アプリケーションの例">RTIC アプリケーションの例</a></h2>
+<p>RTIC の雰囲気をつかんでもらうために、次の例にはよく使われる機能が含まれています。
+以降のセクションでは、各機能を詳しく見ていきます。</p>
+<pre><code class="language-rust noplayground">//! examples/common.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [UART0, UART1])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {
+        local_to_foo: i64,
+        local_to_bar: i64,
+        local_to_idle: i64,
+    }
+
+    // `#[init]` cannot access locals from the `#[local]` struct as they are initialized here.
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        foo::spawn().unwrap();
+        bar::spawn().unwrap();
+
+        (
+            Shared {},
+            // initial values for the `#[local]` resources
+            Local {
+                local_to_foo: 0,
+                local_to_bar: 0,
+                local_to_idle: 0,
+            },
+        )
+    }
+
+    // `local_to_idle` can only be accessed from this context
+    #[idle(local = [local_to_idle])]
+    fn idle(cx: idle::Context) -&gt; ! {
+        let local_to_idle = cx.local.local_to_idle;
+        *local_to_idle += 1;
+
+        hprintln!("idle: local_to_idle = {}", local_to_idle);
+
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+
+        // error: no `local_to_foo` field in `idle::LocalResources`
+        // _cx.local.local_to_foo += 1;
+
+        // error: no `local_to_bar` field in `idle::LocalResources`
+        // _cx.local.local_to_bar += 1;
+
+        loop {
+            cortex_m::asm::nop();
+        }
+    }
+
+    // `local_to_foo` can only be accessed from this context
+    #[task(local = [local_to_foo], priority = 1)]
+    async fn foo(cx: foo::Context) {
+        let local_to_foo = cx.local.local_to_foo;
+        *local_to_foo += 1;
+
+        // error: no `local_to_bar` field in `foo::LocalResources`
+        // cx.local.local_to_bar += 1;
+
+        hprintln!("foo: local_to_foo = {}", local_to_foo);
+    }
+
+    // `local_to_bar` can only be accessed from this context
+    #[task(local = [local_to_bar], priority = 1)]
+    async fn bar(cx: bar::Context) {
+        let local_to_bar = cx.local.local_to_bar;
+        *local_to_bar += 1;
+
+        // error: no `local_to_foo` field in `bar::LocalResources`
+        // cx.local.local_to_foo += 1;
+
+        hprintln!("bar: local_to_bar = {}", local_to_bar);
+    }
+}</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="ハードウェアタスク"><a class="header" href="#ハードウェアタスク">ハードウェアタスク</a></h1>
+<p>RTIC はその中核で、タスクのスケジュールと実行開始にハードウェア割り込みコントローラー（<a href="https://developer.arm.com/documentation/100166/0001/Nested-Vectored-Interrupt-Controller/NVIC-functional-description/NVIC-interrupts">cortex-m 上の ARM NVIC</a>）を使用します。<code>pre-init</code>（隠れた「タスク」）、<code>#[init]</code>、<code>#[idle]</code> を除くすべてのタスクは、割り込みハンドラとして実行されます。</p>
+<p>タスクを割り込みにバインドするには、<code>#[task]</code> 属性引数 <code>binds = InterruptName</code> を使用します。すると、このタスクはこのハードウェア割り込みベクターの割り込みハンドラになります。</p>
+<p>明示的な割り込みにバインドされたタスクはすべて、ハードウェアイベントに反応して実行を開始するため、<em>ハードウェアタスク</em> と呼ばれます。</p>
+<p>存在しない割り込み名を指定すると、コンパイルエラーになります。割り込み名は通常、<a href="https://docs.rust-embedded.org/book/start/registers.html">PAC または HAL</a> クレートで定義されています。</p>
+<p>利用可能な割り込みベクターであれば、どれでも動作するはずです。特定のデバイスでは、ユーザーコードからは制御できない形で、特定の割り込み優先度が特定の割り込みベクターに結び付けられている場合があります。例として <a href="https://github.com/rtic-rs/rtic/issues/434">nRF “softdevice”</a> を参照してください。</p>
+<p>ハードウェア機能によって内部的に使用されている割り込みベクターを使用する際は注意してください。RTIC は、そのようなハードウェア固有の詳細を認識しません。</p>
+<h2 id="例-3"><a class="header" href="#例-3">例</a></h2>
+<p>以下の例は、割り込みハンドラにバインドされたハードウェアタスクを宣言するための <code>#[task(binds = InterruptName)]</code> 属性の使い方を示しています。</p>
+<pre><code class="language-rust noplayground">//! examples/hardware.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965)]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+    use lm3s6965::Interrupt;
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        // Pends the UART0 interrupt but its handler won't run until *after*
+        // `init` returns because interrupts are disabled
+        rtic::pend(Interrupt::UART0); // equivalent to NVIC::pend
+
+        hprintln!("init");
+
+        (Shared {}, Local {})
+    }
+
+    #[idle]
+    fn idle(_: idle::Context) -&gt; ! {
+        // interrupts are enabled again; the `UART0` handler runs at this point
+
+        hprintln!("idle");
+
+        // Some backends provide a manual way of pending an
+        // interrupt.
+        rtic::pend(Interrupt::UART0);
+
+        loop {
+            cortex_m::asm::nop();
+            debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+        }
+    }
+
+    #[task(binds = UART0, local = [times: u32 = 0])]
+    fn uart0(cx: uart0::Context) {
+        // Safe access to local `static mut` variable
+        *cx.local.times += 1;
+
+        hprintln!(
+            "UART0 called {} time{}",
+            *cx.local.times,
+            if *cx.local.times &gt; 1 { "s" } else { "" }
+        );
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example hardware
+</code></pre>
+<pre><code class="language-console">init
+UART0 called 1 time
+idle
+UART0 called 2 times
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="ソフトウェアタスクと-spawn"><a class="header" href="#ソフトウェアタスクと-spawn">ソフトウェアタスクと spawn</a></h1>
+<p>RTIC におけるソフトウェアタスクの概念は、<a href="#ハードウェアタスク">ハードウェアタスク</a> と多くの共通点があります。中核となる違いは、ソフトウェアタスクが特定の割り込みベクタに明示的に束縛されるのではなく、ソフトウェアタスクの意図した優先度で動作する「ディスパッチャ」割り込みベクタに束縛される点です（以下を参照）。</p>
+<p><em>ハードウェア</em> タスクと同様に、関数に付ける <code>#[task]</code> 属性はその関数をタスクとして宣言します。この属性に <code>binds = InterruptName</code> 引数がない場合、その関数は <em>ソフトウェアタスク</em> として宣言されます。</p>
+<p>静的メソッド <code>task_name::spawn()</code> はソフトウェアタスクを spawn（開始）し、より高い優先度のタスクが実行中でなければ、そのタスクは直ちに実行を開始します。</p>
+<p><em>ソフトウェア</em> タスク自体は <code>async</code> な Rust 関数として与えられ、これによりユーザーは将来のイベントを任意に <code>await</code> できます。これにより、リアクティブプログラミング（<em>ハードウェア</em> タスクによる）と逐次的なプログラミング（<em>ソフトウェア</em> タスクによる）を組み合わせられます。</p>
+<p><em>ハードウェア</em> タスクは run-to-completion で実行されて終了するものと想定される一方、<em>ソフトウェア</em> タスクは一度開始（<code>spawn</code>）されると、任意のループ（実行パス）が少なくとも 1 つの <code>await</code>（yield 操作）によって中断されることを条件に、永続的に実行できます。</p>
+<h2 id="ディスパッチャ"><a class="header" href="#ディスパッチャ">ディスパッチャ</a></h2>
+<p>同じ優先度レベルにあるすべての <em>ソフトウェア</em> タスクは、ソフトウェアタスクをディスパッチする async executor として動作する 1 つの割り込みハンドラを共有します。このディスパッチャのリスト <code>dispatchers = [FreeInterrupt1, FreeInterrupt2, ...]</code> は <code>#[app]</code> 属性の引数であり、そこで空いていて使用可能な割り込みの集合を定義します。</p>
+<p>ディスパッチャとして機能する各割り込みベクタには 1 つの優先度レベルが割り当てられるため、ディスパッチャのリストはソフトウェアタスクで使用されるすべての優先度レベルをカバーする必要があります。</p>
+<p>例: ソフトウェアタスクに 3 つの異なる優先度を使用するアプリケーションでは、<code>dispatchers =</code> 引数には少なくとも 3 つのエントリが必要です。</p>
+<p>提供されたディスパッチャが不足している場合、またはディスパッチャのリストと <em>ハードウェア</em> タスクに束縛された割り込みの間で衝突が発生した場合、フレームワークはコンパイルエラーを出します。</p>
+<p>以下の例を参照してください。</p>
+<pre><code class="language-rust noplayground">//! examples/spawn.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [SSI0])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        hprintln!("init");
+        foo::spawn().unwrap();
+
+        (Shared {}, Local {})
+    }
+
+    #[task]
+    async fn foo(_: foo::Context) {
+        hprintln!("foo");
+
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example spawn
+</code></pre>
+<pre><code class="language-console">init
+foo
+</code></pre>
+<p><em>ソフトウェア</em> タスクが run-to-completion で終了していれば、そのタスクを再度 <code>spawn</code> できます。</p>
+<p>以下の例では、<code>idle</code> タスクから <em>ソフトウェア</em> タスク <code>foo</code> を <code>spawn</code> しています。<em>ソフトウェア</em> タスクの優先度は 1（<code>idle</code> より高い）なので、ディスパッチャは <code>foo</code> を実行します（<code>idle</code> をプリエンプトします）。<code>foo</code> は run-to-completion で終了するため、<code>foo</code> タスクを再度 <code>spawn</code> しても問題ありません。</p>
+<p>技術的には、async executor は <code>foo</code> の <em>future</em> を <code>poll</code> し、この場合その <em>future</em> は <em>completed</em> 状態になります。</p>
+<pre><code class="language-rust noplayground">//! examples/spawn_loop.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [SSI0])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        hprintln!("init");
+
+        (Shared {}, Local {})
+    }
+
+    #[idle]
+    fn idle(_: idle::Context) -&gt; ! {
+        for _ in 0..3 {
+            foo::spawn().unwrap();
+            hprintln!("idle");
+        }
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+        loop {}
+    }
+
+    #[task(priority = 1)]
+    async fn foo(_: foo::Context) {
+        hprintln!("foo");
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example spawn_loop
+</code></pre>
+<pre><code class="language-console">init
+foo
+idle
+foo
+idle
+foo
+idle
+</code></pre>
+<p>すでに <code>spawn</code> 済みのタスク（実行中のタスク）を <code>spawn</code> しようとすると、エラーになります。ここで注目すべき点は、このエラーが <code>foo</code> タスクが実際に実行される前に報告されることです。これは、<em>ソフトウェア</em> タスクの実際の実行がディスパッチャ割り込み（<code>SSIO</code>）によって処理される一方で、その割り込みは <code>init</code> タスクを抜けるまで有効にならないためです。（<code>init</code> はクリティカルセクションで実行され、つまりすべての割り込みが無効化されていることを思い出してください。）</p>
+<p>技術的には、<em>completed</em> 状態にない <em>future</em> に対する <code>spawn</code> はエラーと見なされます。</p>
+<pre><code class="language-rust noplayground">//! examples/spawn_err.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [SSI0])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        hprintln!("init");
+        foo::spawn().unwrap();
+        match foo::spawn() {
+            Ok(_) =&gt; {}
+            Err(()) =&gt; hprintln!("Cannot spawn a spawned (running) task!"),
+        }
+
+        (Shared {}, Local {})
+    }
+
+    #[task]
+    async fn foo(_: foo::Context) {
+        hprintln!("foo");
+
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example spawn_err
+</code></pre>
+<pre><code class="language-console">init
+Cannot spawn a spawned (running) task!
+foo
+</code></pre>
+<h2 id="引数の受け渡し"><a class="header" href="#引数の受け渡し">引数の受け渡し</a></h2>
+<p>次のように、<code>spawn</code> 時に引数を渡すこともできます。</p>
+<pre><code class="language-rust noplayground">//! examples/spawn_arguments.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [SSI0])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        foo::spawn(1, 1).unwrap();
+        assert!(foo::spawn(1, 4).is_err()); // The capacity of `foo` is reached
+
+        (Shared {}, Local {})
+    }
+
+    #[task]
+    async fn foo(_c: foo::Context, x: i32, y: u32) {
+        hprintln!("foo {}, {}", x, y);
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example spawn_arguments
+</code></pre>
+<pre><code class="language-console">foo 1, 1
+</code></pre>
+<h2 id="発散タスク"><a class="header" href="#発散タスク">発散タスク</a></h2>
+<p>タスクは 2 つのシグネチャのいずれかを取れます: <code>async fn({name}::Context, ..)</code> または <code>async fn({name}::Context, ..) -&gt; !</code>。後者は <em>発散</em> タスク、つまり決して return しないタスクを定義します。発散タスクの主な利点は、<code>'static</code> なコンテキストを受け取り、<code>local</code> リソースが <code>'static</code> ライフタイムを持つことです。さらに、このシグネチャを使うことでタスクの意図が明示され、短命なタスクと無期限に実行されるタスクを明確に区別できます。<code>.await</code> によって制御を明け渡し、同じ優先度レベルの他のタスクを飢餓状態にしないよう注意してください。</p>
+<h2 id="優先度ゼロのタスク"><a class="header" href="#優先度ゼロのタスク">優先度ゼロのタスク</a></h2>
+<p>RTIC では、タスクは互いにプリエンプティブに実行され、優先度ゼロ（0）が最も低い優先度です。優先度ゼロのタスクは、厳密なリアルタイム要件のないバックグラウンド処理に使用できます。</p>
+<p>概念的には、そのようなタスクはアプリケーションの <code>main</code> スレッドで実行されるものと見なせるため、関連するリソースには <a href="https://doc.rust-lang.org/nomicon/send-and-sync.html">Send</a> トレイト境界は要求されません。</p>
+<pre><code class="language-rust noplayground">//! examples/zero-prio-task.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use core::marker::PhantomData;
+use panic_semihosting as _;
+
+/// Does not impl send
+pub struct NotSend {
+    _0: PhantomData&lt;*const ()&gt;,
+}
+
+#[rtic::app(device = lm3s6965, peripherals = true)]
+mod app {
+    use super::NotSend;
+    use core::marker::PhantomData;
+    use cortex_m_semihosting::{debug, hprintln};
+
+    #[shared]
+    struct Shared {
+        x: NotSend,
+    }
+
+    #[local]
+    struct Local {
+        y: NotSend,
+    }
+
+    #[init]
+    fn init(_cx: init::Context) -&gt; (Shared, Local) {
+        hprintln!("init");
+
+        async_task::spawn().unwrap();
+        async_task2::spawn().unwrap();
+
+        (
+            Shared {
+                x: NotSend { _0: PhantomData },
+            },
+            Local {
+                y: NotSend { _0: PhantomData },
+            },
+        )
+    }
+
+    #[task(priority = 0, shared = [x], local = [y])]
+    async fn async_task(_: async_task::Context) {
+        hprintln!("hello from async");
+    }
+
+    #[task(priority = 0, shared = [x])]
+    async fn async_task2(_: async_task2::Context) {
+        hprintln!("hello from async2");
+
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example zero-prio-task
+</code></pre>
+<pre><code class="language-console">init
+hello from async
+hello from async2
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>: 優先度ゼロの <em>ソフトウェア</em> タスクは [idle] タスクと共存できません。理由は、<code>idle</code> が優先度ゼロの、復帰しない Rust 関数として実行されるためです。したがって、優先度ゼロの executor が同じ優先度の <em>ソフトウェア</em> タスクに制御を渡す方法がありません。</p>
+</blockquote>
+<hr>
+<p>アプリケーション側の安全性: 技術的には、RTIC フレームワークは <em>completed</em> 状態の future を持つ <em>ソフトウェア</em> タスクに対して <code>poll</code> が決して実行されないことを保証しており、これにより async Rust の健全性の規則に従います。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="リソースの使用"><a class="header" href="#リソースの使用">リソースの使用</a></h1>
+<p>RTIC フレームワークは共有リソースとタスクローカルリソースを管理し、<code>unsafe</code> コードを使用せずに永続的なデータ保存と安全なアクセスを可能にします。</p>
+<p>RTIC のリソースは <code>#[app]</code> モジュール内で宣言された関数からのみ参照可能であり、フレームワークはリソースのアクセス可能性を（タスクごとに）ユーザーが完全に制御できるようにします。</p>
+<p>システム全体のリソースは、<code>#[app]</code> モジュール内の <strong>2 つ</strong> の <code>struct</code> に <code>#[local]</code> および <code>#[shared]</code> 属性を付けることで宣言します。これらの構造体の各フィールドは、それぞれ異なるリソース（フィールド名で識別）に対応します。この 2 種類のリソースの違いについては以下で説明します。</p>
+<p>各タスクは、対応するメタデータ属性で <code>local</code> 引数と <code>shared</code> 引数を使って、アクセスする予定のリソースを宣言する必要があります。各引数にはリソース識別子のリストを指定します。列挙したリソースは、<code>Context</code> 構造体の <code>local</code> フィールドおよび <code>shared</code> フィールドを通じてコンテキストから利用可能になります。</p>
+<p><code>init</code> タスクは、システム全体の（<code>#[shared]</code> および <code>#[local]</code>）リソースの初期値を返します。</p>
+<!-- およびアプリケーションが使用する初期化済みタイマーの集合。モノトニックタイマーについては
+[Monotonic と `spawn_{at/after}`](./monotonic.md) でさらに説明します。 -->
+<h2 id="local-リソース"><a class="header" href="#local-リソース"><code>#[local]</code> リソース</a></h2>
+<p><code>#[local]</code> リソースは特定のタスクからローカルにアクセス可能なリソースであり、そのタスクだけがロックやクリティカルセクションなしでそのリソースにアクセスできます。これにより、通常はドライバーや大きなオブジェクトであるリソースを <code>#[init]</code> で初期化し、その後特定のタスクに渡すことができます。</p>
+<p>したがって、あるタスクの <code>#[local]</code> リソースには、ただ 1 つのタスクだけがアクセスできます。同じ <code>#[local]</code> リソースを複数のタスクに割り当てようとすると、コンパイル時エラーになります。</p>
+<p><code>#[local]</code> リソースの型は、<code>init</code> から対象タスクへ送られ、スレッド境界をまたぐため、<a href="https://doc.rust-lang.org/stable/core/marker/trait.Send.html"><code>Send</code></a> トレイトを実装していなければなりません。</p>
+<p>以下に示すアプリケーション例には、<code>foo</code>、<code>bar</code>、<code>idle</code> の 3 つのタスクがあり、それぞれが自身の <code>#[local]</code> リソースにアクセスできます。</p>
+<pre><code class="language-rust noplayground">//! examples/locals.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [UART0, UART1])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {
+        local_to_foo: i64,
+        local_to_bar: i64,
+        local_to_idle: i64,
+    }
+
+    // `#[init]` cannot access locals from the `#[local]` struct as they are initialized here.
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        foo::spawn().unwrap();
+        bar::spawn().unwrap();
+
+        (
+            Shared {},
+            // initial values for the `#[local]` resources
+            Local {
+                local_to_foo: 0,
+                local_to_bar: 0,
+                local_to_idle: 0,
+            },
+        )
+    }
+
+    // `local_to_idle` can only be accessed from this context
+    #[idle(local = [local_to_idle])]
+    fn idle(cx: idle::Context) -&gt; ! {
+        let local_to_idle = cx.local.local_to_idle;
+        *local_to_idle += 1;
+
+        hprintln!("idle: local_to_idle = {}", local_to_idle);
+
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+
+        // error: no `local_to_foo` field in `idle::LocalResources`
+        // _cx.local.local_to_foo += 1;
+
+        // error: no `local_to_bar` field in `idle::LocalResources`
+        // _cx.local.local_to_bar += 1;
+
+        loop {
+            cortex_m::asm::nop();
+        }
+    }
+
+    // `local_to_foo` can only be accessed from this context
+    #[task(local = [local_to_foo], priority = 1)]
+    async fn foo(cx: foo::Context) {
+        let local_to_foo = cx.local.local_to_foo;
+        *local_to_foo += 1;
+
+        // error: no `local_to_bar` field in `foo::LocalResources`
+        // cx.local.local_to_bar += 1;
+
+        hprintln!("foo: local_to_foo = {}", local_to_foo);
+    }
+
+    // `local_to_bar` can only be accessed from this context
+    #[task(local = [local_to_bar], priority = 1)]
+    async fn bar(cx: bar::Context) {
+        let local_to_bar = cx.local.local_to_bar;
+        *local_to_bar += 1;
+
+        // error: no `local_to_foo` field in `bar::LocalResources`
+        // cx.local.local_to_foo += 1;
+
+        hprintln!("bar: local_to_bar = {}", local_to_bar);
+    }
+}</code></pre>
+<p>この例を実行するには:</p>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example locals
+</code></pre>
+<pre><code class="language-console">bar: local_to_bar = 1
+foo: local_to_foo = 1
+idle: local_to_idle = 1
+</code></pre>
+<p><code>#[init]</code> と <code>#[idle]</code> のローカルリソースは <code>'static</code> ライフタイムを持ちます。これは、どちらのタスクも再入可能ではないため安全です。</p>
+<h3 id="タスクローカルな初期化済みリソース"><a class="header" href="#タスクローカルな初期化済みリソース">タスクローカルな初期化済みリソース</a></h3>
+<p>ローカルリソースは、<code>#[task(local = [my_var: TYPE = INITIAL_VALUE, ...])]</code> のようにリソース指定内で直接指定することもできます。これにより、<code>#[init]</code> で初期化する必要のないローカルを作成できます。</p>
+<p><code>#[task(local = [..])]</code> リソースの型は、スレッド境界をまたがないため、<a href="https://doc.rust-lang.org/stable/core/marker/trait.Send.html"><code>Send</code></a> でも <a href="https://doc.rust-lang.org/stable/core/marker/trait.Sync.html"><code>Sync</code></a> でもある必要はありません。</p>
+<p>以下の例では、さまざまな使い方とライフタイムを示しています。</p>
+<pre><code class="language-rust noplayground">//! examples/declared_locals.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965)]
+mod app {
+    use cortex_m_semihosting::debug;
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    #[init(local = [a: u32 = 0])]
+    fn init(cx: init::Context) -&gt; (Shared, Local) {
+        // Locals in `#[init]` have 'static lifetime
+        let _a: &amp;'static mut u32 = cx.local.a;
+
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+
+        (Shared {}, Local {})
+    }
+
+    #[idle(local = [a: u32 = 0])]
+    fn idle(cx: idle::Context) -&gt; ! {
+        // Locals in `#[idle]` have 'static lifetime
+        let _a: &amp;'static mut u32 = cx.local.a;
+
+        loop {}
+    }
+
+    #[task(binds = UART0, local = [a: u32 = 0])]
+    fn foo(cx: foo::Context) {
+        // Locals in `#[task]`s have a local lifetime
+        let _a: &amp;mut u32 = cx.local.a;
+
+        // error: explicit lifetime required in the type of `cx`
+        // let _a: &amp;'static mut u32 = cx.local.a;
+    }
+}</code></pre>
+<p>アプリケーションを実行することもできますが、この例はライフタイムの性質を示すことだけを目的としているため、出力はありません（アプリケーションをビルドするだけで十分です）。</p>
+<pre><code class="language-console">$ cargo build --target thumbv7m-none-eabi --example declared_locals
+</code></pre>
+<!--  -->
+<h2 id="shared-リソースと-lock"><a class="header" href="#shared-リソースと-lock"><code>#[shared]</code> リソースと <code>lock</code></a></h2>
+<p><code>#[shared]</code> リソースにデータ競合なしでアクセスするにはクリティカルセクションが必要です。そのため、渡される <code>Context</code> の <code>shared</code> フィールドは、そのタスクからアクセス可能な各共有リソースについて <a href="../../api/rtic/trait.Mutex.html"><code>Mutex</code></a> トレイトを実装します。このトレイトには <a href="../../api/rtic/trait.Mutex.html#method.lock"><code>lock</code></a> という 1 つのメソッドしかなく、そのクロージャ引数をクリティカルセクション内で実行します。</p>
+<p><code>lock</code> API によって作成されるクリティカルセクションは動的優先度に基づいています。つまり、他のタスクがそのクリティカルセクションをプリエンプトできないように、コンテキストの動的優先度を一時的に <em>ceiling</em> 優先度まで引き上げます。この同期プロトコルは <a href="https://en.wikipedia.org/wiki/Priority_ceiling_protocol">Immediate Ceiling Priority Protocol (ICPP)</a> として知られており、RTIC の <a href="https://en.wikipedia.org/wiki/Stack_Resource_Policy">Stack Resource Policy (SRP)</a> ベースのスケジューリングに準拠しています。</p>
+<p>以下の例では、優先度 1 から 3 の 3 つの割り込みハンドラがあります。低い優先度を持つ 2 つのハンドラは <code>shared</code> リソースをめぐって競合し、そのデータにアクセスするにはそのリソースのロック取得に成功する必要があります。<code>shared</code> リソースにアクセスしない最も高い優先度のハンドラは、最も低い優先度のハンドラが作成したクリティカルセクションを自由にプリエンプトできます。</p>
+<pre><code class="language-rust noplayground">//! examples/lock.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [GPIOA, GPIOB, GPIOC])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+
+    #[shared]
+    struct Shared {
+        shared: u32,
+    }
+
+    #[local]
+    struct Local {}
+
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        foo::spawn().unwrap();
+
+        (Shared { shared: 0 }, Local {})
+    }
+
+    // when omitted priority is assumed to be `1`
+    #[task(shared = [shared])]
+    async fn foo(mut c: foo::Context) {
+        hprintln!("A");
+
+        // the lower priority task requires a critical section to access the data
+        c.shared.shared.lock(|shared| {
+            // data can only be modified within this critical section (closure)
+            *shared += 1;
+
+            // bar will *not* run right now due to the critical section
+            bar::spawn().unwrap();
+
+            hprintln!("B - shared = {}", *shared);
+
+            // baz does not contend for `shared` so it's allowed to run now
+            baz::spawn().unwrap();
+        });
+
+        // critical section is over: bar can now start
+
+        hprintln!("E");
+
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+    }
+
+    #[task(priority = 2, shared = [shared])]
+    async fn bar(mut c: bar::Context) {
+        // the higher priority task does still need a critical section
+        let shared = c.shared.shared.lock(|shared| {
+            *shared += 1;
+
+            *shared
+        });
+
+        hprintln!("D - shared = {}", shared);
+    }
+
+    #[task(priority = 3)]
+    async fn baz(_: baz::Context) {
+        hprintln!("C");
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example lock
+</code></pre>
+<pre><code class="language-console">A
+B - shared = 1
+C
+D - shared = 2
+E
+</code></pre>
+<p><code>#[shared]</code> リソースの型は <a href="https://doc.rust-lang.org/stable/core/marker/trait.Send.html"><code>Send</code></a> でなければなりません。</p>
+<h2 id="multi-lock"><a class="header" href="#multi-lock">Multi-lock</a></h2>
+<p><code>lock</code> の拡張として、また右方向へのインデントの増大を抑えるため、ロックはタプルとして取得できます。以下の例はその使用方法を示しています。</p>
+<pre><code class="language-rust noplayground">//! examples/mutlilock.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [GPIOA])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+
+    #[shared]
+    struct Shared {
+        shared1: u32,
+        shared2: u32,
+        shared3: u32,
+    }
+
+    #[local]
+    struct Local {}
+
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        locks::spawn().unwrap();
+
+        (
+            Shared {
+                shared1: 0,
+                shared2: 0,
+                shared3: 0,
+            },
+            Local {},
+        )
+    }
+
+    // when omitted priority is assumed to be `1`
+    #[task(shared = [shared1, shared2, shared3])]
+    async fn locks(c: locks::Context) {
+        let s1 = c.shared.shared1;
+        let s2 = c.shared.shared2;
+        let s3 = c.shared.shared3;
+
+        (s1, s2, s3).lock(|s1, s2, s3| {
+            *s1 += 1;
+            *s2 += 1;
+            *s3 += 1;
+
+            hprintln!("Multiple locks, s1: {}, s2: {}, s3: {}", *s1, *s2, *s3);
+        });
+
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example multilock
+</code></pre>
+<pre><code class="language-console">Multiple locks, s1: 1, s2: 1, s3: 1
+</code></pre>
+<h2 id="共有---アクセスのみ"><a class="header" href="#共有---アクセスのみ">共有 (<code>&amp;-</code>) アクセスのみ</a></h2>
+<p>デフォルトでは、フレームワークはすべてのタスクがリソースへの排他的な可変アクセス (<code>&amp;mut-</code>) を必要とすると仮定しますが、<code>shared</code> リストで <code>&amp;resource_name</code> 構文を使うことで、タスクがリソースへの共有アクセス (<code>&amp;-</code>) だけを必要とすることを指定できます。</p>
+<p>リソースへの共有アクセス (<code>&amp;-</code>) を指定する利点は、異なる優先度で実行される複数のタスクがそのリソースをめぐって競合している場合でも、リソースにアクセスするためのロックが不要になることです。欠点は、そのタスクがリソースへの共有参照 (<code>&amp;-</code>) しか得られず、実行できる操作が制限されることですが、共有参照で十分な場合には、この方法によって必要なロックの数を減らせます。単純なイミュータブルデータに加えて、リソース型自体が適切なロックやアトミック操作によって安全に内部可変性を実装している場合にも、この共有アクセスは有用です。</p>
+<p>この RTIC のリリースでは、異なるタスクから <em>同じ</em> リソースに対して排他的アクセス (<code>&amp;mut-</code>) と共有アクセス (<code>&amp;-</code>) の両方を要求することはできない点に注意してください。そうしようとすると、コンパイルエラーになります。</p>
+<p>以下の例では、キー（たとえば暗号鍵）を実行時にロード（または作成）し（<code>init</code> から返される）、その後、異なる優先度で実行される 2 つのタスクから、いかなる種類のロックも使わずに使用します。</p>
+<pre><code class="language-rust noplayground">//! examples/only-shared-access.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [UART0, UART1])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+
+    #[shared]
+    struct Shared {
+        key: u32,
+    }
+
+    #[local]
+    struct Local {}
+
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        foo::spawn().unwrap();
+        bar::spawn().unwrap();
+
+        (Shared { key: 0xdeadbeef }, Local {})
+    }
+
+    #[task(shared = [&amp;key])]
+    async fn foo(cx: foo::Context) {
+        let key: &amp;u32 = cx.shared.key;
+        hprintln!("foo(key = {:#x})", key);
+
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+    }
+
+    #[task(priority = 2, shared = [&amp;key])]
+    async fn bar(cx: bar::Context) {
+        hprintln!("bar(key = {:#x})", cx.shared.key);
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example only-shared-access
+</code></pre>
+<pre><code class="language-console">bar(key = 0xdeadbeef)
+foo(key = 0xdeadbeef)
+</code></pre>
+<h2 id="共有リソースへのロックフリーアクセス"><a class="header" href="#共有リソースへのロックフリーアクセス">共有リソースへのロックフリーアクセス</a></h2>
+<p><code>#[shared]</code> リソースが <em>同じ</em> 優先度で動作するタスクからのみアクセスされる場合、それにアクセスするためにクリティカルセクションは <em>不要</em> です。この場合、リソース宣言にフィールドレベル属性 <code>#[lock_free]</code> を追加することで、<code>lock</code> API の使用を省略できます（以下の例を参照）。</p>
+<!-- これは、不要なリソースロック用コードを減らすための単なる便宜機能にすぎないことに注意してください。というのも、
+`lock` API を使用したとしても、基盤となる resource-ceiling preemption の仕組みにより、実行時にフレームワークが**クリティカルセクションを生成することはない**
+ためです。 -->
+<p>Rust の<a href="https://doc.rust-lang.org/nomicon/aliasing.html">aliasing</a>規則に従うため、リソースには複数の不変参照を通じてアクセスするか、単一の可変参照を通じてアクセスするかのいずれかのみが可能です（ただし、同時に両方は不可です）。</p>
+<p>異なる優先度で動作するタスク間で共有されるリソースに <code>#[lock_free]</code> を使用すると、<em>コンパイル時</em> エラーになります – <code>lock</code> API を使用しないと、前述の aliasing 規則に違反するためです。同様に、各優先度について、共有リソースにアクセスできる <em>ソフトウェア</em> タスクは 1 つだけです（<code>async</code> タスクは、同じ優先度で動作するほかの <em>ソフトウェア</em> または <em>ハードウェア</em> タスクに実行を譲る可能性があるためです）。しかし、この単一タスク制約の下では、そのリソースは実質的にもはや <code>shared</code> ではなく、むしろ <code>local</code> であるとみなせます。したがって、<code>#[lock_free]</code> を付与した共有リソースを使用すると <em>コンパイル時</em> エラーになります – 適用できる場合は、代わりに <code>#[local]</code> リソースを使用してください。</p>
+<pre><code class="language-rust noplayground">//! examples/lock-free.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965)]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+    use lm3s6965::Interrupt;
+
+    #[shared]
+    struct Shared {
+        #[lock_free] // &lt;- lock-free shared resource
+        counter: u64,
+    }
+
+    #[local]
+    struct Local {}
+
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        rtic::pend(Interrupt::UART0);
+
+        (Shared { counter: 0 }, Local {})
+    }
+
+    #[task(binds = UART0, shared = [counter])] // &lt;- same priority
+    fn foo(c: foo::Context) {
+        rtic::pend(Interrupt::UART1);
+
+        *c.shared.counter += 1; // &lt;- no lock API required
+        let counter = *c.shared.counter;
+        hprintln!("  foo = {}", counter);
+    }
+
+    #[task(binds = UART1, shared = [counter])] // &lt;- same priority
+    fn bar(c: bar::Context) {
+        rtic::pend(Interrupt::UART0);
+        *c.shared.counter += 1; // &lt;- no lock API required
+        let counter = *c.shared.counter;
+        hprintln!("  bar = {}", counter);
+
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example lock-free
+</code></pre>
+<pre><code class="language-console">  foo = 1
+  bar = 2
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="アプリケーションの初期化と-init-タスク"><a class="header" href="#アプリケーションの初期化と-init-タスク">アプリケーションの初期化と <code>#[init]</code> タスク</a></h1>
+<p>RTIC アプリケーションでは、システムをセットアップする <code>init</code> タスクが必要です。対応する <code>init</code> 関数は
+シグネチャ <code>fn(init::Context) -&gt; (Shared, Local)</code> を持つ必要があります。ここで、<code>Shared</code> と <code>Local</code> はユーザー定義のリソース構造体です。</p>
+<p><code>init</code> タスクは、システムリセット後、[任意で定義された <code>pre-init</code> コードセクション]<sup class="footnote-reference" id="fr-pre-init-1"><a href="#footnote-pre-init">1</a></sup> と、常に行われる RTIC の内部初期化の後に実行されます。</p>
+<p><code>init</code> タスクとオプションの <code>pre-init</code> タスクは、<em>割り込みを無効化した状態で</em> 実行され、Cortex-M への排他的アクセス権を持ちます（<code>critical_section::CriticalSection</code> トークンは <code>cs</code> として利用できます）。</p>
+<p>デバイス固有のペリフェラルは、<code>init::Context</code> の <code>core</code> フィールドと <code>device</code> フィールドを通じて利用できます。</p>
+<h2 id="例-4"><a class="header" href="#例-4">例</a></h2>
+<p>以下の例は、<code>core</code>、<code>device</code>、<code>cs</code> フィールドの型を示すとともに、<code>'static</code> ライフタイムを持つ <code>local</code> 変数の使用例を示しています。このような変数は、RTIC アプリケーションの <code>init</code> タスクから他のタスクへ委譲できます。</p>
+<p><code>device</code> フィールドは、<code>peripherals</code> 引数がデフォルト値 <code>true</code> に設定されている場合にのみ利用できます。
+ごくまれに超軽量なアプリケーションを実装したい場合は、<code>peripherals</code> を明示的に <code>false</code> に設定できます。</p>
+<pre><code class="language-rust noplayground">//! examples/init.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, peripherals = true)]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    #[init(local = [x: u32 = 0])]
+    fn init(cx: init::Context) -&gt; (Shared, Local) {
+        // Cortex-M peripherals
+        let _core: cortex_m::Peripherals = cx.core;
+
+        // Device specific peripherals
+        let _device: lm3s6965::Peripherals = cx.device;
+
+        // Locals in `init` have 'static lifetime
+        let _x: &amp;'static mut u32 = cx.local.x;
+
+        // Access to the critical section token,
+        // to indicate that this is a critical section
+        let _cs_token: rtic::export::CriticalSection = cx.cs;
+
+        hprintln!("init");
+
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+
+        (Shared {}, Local {})
+    }
+}</code></pre>
+<p>この例を実行すると、コンソールに <code>init</code> が出力され、その後 QEMU プロセスが終了します。</p>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example init
+</code></pre>
+<pre><code class="language-console">init
+</code></pre>
+<hr>
+<ol class="footnote-definition">
+<li id="footnote-pre-init">
+<p><a href="https://docs.rs/cortex-m-rt/latest/cortex_m_rt/attr.pre_init.html">https://docs.rs/cortex-m-rt/latest/cortex_m_rt/attr.pre_init.html</a> <a href="#fr-pre-init-1">↩</a></p>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="バックグラウンドタスク-idle"><a class="header" href="#バックグラウンドタスク-idle">バックグラウンドタスク <code>#[idle]</code></a></h1>
+<p><code>idle</code> 属性でマークされた関数は、モジュール内に任意で記述できます。これは特別な <em>idle タスク</em> となり、シグネチャは <code>fn(idle::Context) -&gt; !</code> でなければなりません。</p>
+<p>存在する場合、ランタイムは <code>init</code> の後に <code>idle</code> タスクを実行します。<code>init</code> とは異なり、<code>idle</code> は <em>割り込みが有効な状態で</em> 実行され、<code>-&gt; !</code> の関数シグネチャが示すとおり、決してリターンしてはいけません。
+<a href="https://doc.rust-lang.org/core/primitive.never.html">Rust の型 <code>!</code> は「never」を意味します</a>。</p>
+<p><code>init</code> と同様に、ローカルに宣言されたリソースは安全にアクセスできる <code>'static</code> ライフタイムを持ちます。</p>
+<p>以下の例は、<code>idle</code> が <code>init</code> の後に実行されることを示しています。</p>
+<pre><code class="language-rust noplayground">//! examples/idle.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965)]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        hprintln!("init");
+
+        (Shared {}, Local {})
+    }
+
+    #[idle(local = [x: u32 = 0])]
+    fn idle(cx: idle::Context) -&gt; ! {
+        // Locals in idle have lifetime 'static
+        let _x: &amp;'static mut u32 = cx.local.x;
+
+        hprintln!("idle");
+
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+
+        loop {
+            cortex_m::asm::nop();
+        }
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example idle
+</code></pre>
+<pre><code class="language-console">init
+idle
+</code></pre>
+<p>デフォルトでは、RTIC の <code>idle</code> タスクは特定のターゲット向けの最適化を行いません。</p>
+<p>一般的で有用な最適化の 1 つは、<a href="https://developer.arm.com/documentation/100737/0100/Power-management/Sleep-mode/Sleep-on-exit-bit">SLEEPONEXIT</a> を有効にして、<code>idle</code> に到達したときに MCU がスリープに入れるようにすることです。</p>
+<blockquote>
+<p><strong>注意</strong>: 一部のハードウェアでは、設定しない限り、スリープモード中にデバッグユニットが無効になります。</p>
+<p>これは RTIC の範囲外であるため、ハードウェア固有のドキュメントを参照してください。</p>
+</blockquote>
+<p>次の例は、
+<a href="https://developer.arm.com/documentation/100737/0100/Power-management/Sleep-mode/Sleep-on-exit-bit"><code>SLEEPONEXIT</code></a> を設定し、デフォルトの <a href="https://developer.arm.com/documentation/dui0662/b/The-Cortex-M0--Instruction-Set/Miscellaneous-instructions/NOP"><code>nop()</code></a> を <a href="https://developer.arm.com/documentation/dui0662/b/The-Cortex-M0--Instruction-Set/Miscellaneous-instructions/WFI"><code>wfi()</code></a> に置き換えるカスタム <code>idle</code> タスクを提供することで、スリープを有効にする方法を示しています。</p>
+<pre><code class="language-rust noplayground">//! examples/idle-wfi.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965)]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    #[init]
+    fn init(mut cx: init::Context) -&gt; (Shared, Local) {
+        hprintln!("init");
+
+        // Set the ARM SLEEPONEXIT bit to go to sleep after handling interrupts
+        // See https://developer.arm.com/documentation/100737/0100/Power-management/Sleep-mode/Sleep-on-exit-bit
+        cx.core.SCB.set_sleeponexit();
+
+        (Shared {}, Local {})
+    }
+
+    #[idle(local = [x: u32 = 0])]
+    fn idle(cx: idle::Context) -&gt; ! {
+        // Locals in idle have lifetime 'static
+        let _x: &amp;'static mut u32 = cx.local.x;
+
+        hprintln!("idle");
+
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+
+        loop {
+            // Now Wait For Interrupt is used instead of a busy-wait loop
+            // to allow MCU to sleep between interrupts
+            // https://developer.arm.com/documentation/ddi0406/c/Application-Level-Architecture/Instruction-Details/Alphabetical-list-of-instructions/WFI
+            rtic::export::wfi()
+        }
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example idle-wfi
+</code></pre>
+<pre><code class="language-console">init
+idle
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>: <code>idle</code> タスクは、優先度 0 で動作する <em>ソフトウェア</em> タスクと一緒には使用できません。理由は、<code>idle</code> が優先度 0 でリターンしない Rust 関数として実行されるためです。そのため、優先度 0 のエグゼキュータが同じ優先度の <em>ソフトウェア</em> タスクに制御を渡す方法がありません。</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="チャネルを介した通信"><a class="header" href="#チャネルを介した通信">チャネルを介した通信。</a></h1>
+<p>チャネルは、実行中のタスク間でデータをやり取りするために使用できます。チャネルは本質的には待機キューであり、複数のプロデューサーと単一のレシーバーを持つタスク間の通信を可能にします。チャネルは <code>init</code> タスクで構築され、静的に割り当てられたメモリを基盤としています。送信エンドポイントと受信エンドポイントは <em>ソフトウェア</em> タスクに配布されます。</p>
+<pre><code class="language-rust noplayground">...
+const CAPACITY: usize = 5;
+#[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        let (s, r) = make_channel!(u32, CAPACITY);
+        receiver::spawn(r).unwrap();
+        sender1::spawn(s.clone()).unwrap();
+        sender2::spawn(s.clone()).unwrap();
+        ...</code></pre>
+<p>この場合、チャネルは <code>u32</code> 型のデータを保持し、容量は 5 要素です。</p>
+<p>チャネルは <em>ハードウェア</em> タスクからも使用できますが、<a href="#try-api">Try API</a> を使用した非 <code>async</code> の方法でのみ可能です。</p>
+<h2 id="データの送信"><a class="header" href="#データの送信">データの送信</a></h2>
+<p><code>send</code> メソッドは、以下のようにチャネルにメッセージを送信します。</p>
+<pre><code class="language-rust noplayground">#[task]
+async fn sender1(_c: sender1::Context, mut sender: Sender&lt;'static, u32, CAPACITY&gt;) {
+    hprintln!("Sender 1 sending: 1");
+    sender.send(1).await.unwrap();
+}</code></pre>
+<h2 id="データの受信"><a class="header" href="#データの受信">データの受信</a></h2>
+<p>受信側は到着するメッセージを <code>await</code> できます。</p>
+<pre><code class="language-rust noplayground">#[task]
+async fn receiver(_c: receiver::Context, mut receiver: Receiver&lt;'static, u32, CAPACITY&gt;) {
+    while let Ok(val) = receiver.recv().await {
+        hprintln!("Receiver got: {}", val);
+        ...
+    }
+}</code></pre>
+<p>チャネルは、競合状態を防ぐために、小さな（グローバルな）<em>クリティカルセクション</em>（CS）を使って実装されています。ユーザーは CS 実装を提供しなければなりません。例を <code>--features test-critical-section</code> 付きでコンパイルすると、可能な実装の 1 つが得られます。</p>
+<p>完全な例:</p>
+<pre><code class="language-rust noplayground">//! examples/async-channel.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [SSI0])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+    use rtic_sync::{channel::*, make_channel};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    const CAPACITY: usize = 5;
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        let (s, r) = make_channel!(u32, CAPACITY);
+
+        receiver::spawn(r).unwrap();
+        sender1::spawn(s.clone()).unwrap();
+        sender2::spawn(s.clone()).unwrap();
+        sender3::spawn(s).unwrap();
+
+        (Shared {}, Local {})
+    }
+
+    #[task]
+    async fn receiver(_c: receiver::Context, mut receiver: Receiver&lt;'static, u32, CAPACITY&gt;) {
+        while let Ok(val) = receiver.recv().await {
+            hprintln!("Receiver got: {}", val);
+            if val == 3 {
+                debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+            }
+        }
+    }
+
+    #[task]
+    async fn sender1(_c: sender1::Context, mut sender: Sender&lt;'static, u32, CAPACITY&gt;) {
+        hprintln!("Sender 1 sending: 1");
+        sender.send(1).await.unwrap();
+    }
+
+    #[task]
+    async fn sender2(_c: sender2::Context, mut sender: Sender&lt;'static, u32, CAPACITY&gt;) {
+        hprintln!("Sender 2 sending: 2");
+        sender.send(2).await.unwrap();
+    }
+
+    #[task]
+    async fn sender3(_c: sender3::Context, mut sender: Sender&lt;'static, u32, CAPACITY&gt;) {
+        hprintln!("Sender 3 sending: 3");
+        sender.send(3).await.unwrap();
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example async-channel --features test-critical-section
+</code></pre>
+<pre><code class="language-console">Sender 1 sending: 1
+Sender 2 sending: 2
+Sender 3 sending: 3
+Receiver got: 1
+Receiver got: 2
+Receiver got: 3
+</code></pre>
+<p>また、送信エンドポイントも <code>await</code> できます。チャネル容量がまだ上限に達していない場合、送信側を <code>await</code> した処理は直ちに進行できます。一方、容量に達している場合、キューに空きができるまで送信側はブロックされます。このようにしてデータが失われることはありません。</p>
+<p>以下の例では、<code>CAPACITY</code> が 1 に減らされており、送信タスクはチャネル内のデータが受信されるまで待機することになります。</p>
+<pre><code class="language-rust noplayground">//! examples/async-channel-done.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [SSI0])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+    use rtic_sync::{channel::*, make_channel};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    const CAPACITY: usize = 1;
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        let (s, r) = make_channel!(u32, CAPACITY);
+
+        receiver::spawn(r).unwrap();
+        sender1::spawn(s.clone()).unwrap();
+        sender2::spawn(s.clone()).unwrap();
+        sender3::spawn(s).unwrap();
+
+        (Shared {}, Local {})
+    }
+
+    #[task]
+    async fn receiver(_c: receiver::Context, mut receiver: Receiver&lt;'static, u32, CAPACITY&gt;) {
+        while let Ok(val) = receiver.recv().await {
+            hprintln!("Receiver got: {}", val);
+            if val == 3 {
+                debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+            }
+        }
+    }
+
+    #[task]
+    async fn sender1(_c: sender1::Context, mut sender: Sender&lt;'static, u32, CAPACITY&gt;) {
+        hprintln!("Sender 1 sending: 1");
+        sender.send(1).await.unwrap();
+        hprintln!("Sender 1 done");
+    }
+
+    #[task]
+    async fn sender2(_c: sender2::Context, mut sender: Sender&lt;'static, u32, CAPACITY&gt;) {
+        hprintln!("Sender 2 sending: 2");
+        sender.send(2).await.unwrap();
+        hprintln!("Sender 2 done");
+    }
+
+    #[task]
+    async fn sender3(_c: sender3::Context, mut sender: Sender&lt;'static, u32, CAPACITY&gt;) {
+        hprintln!("Sender 3 sending: 3");
+        sender.send(3).await.unwrap();
+        hprintln!("Sender 3 done");
+    }
+}</code></pre>
+<p>出力を見ると、<code>Sender 2</code> は <code>Sender 1</code> によって送信されたデータが受信されるまで待機することがわかります。</p>
+<blockquote>
+<p><strong>注意</strong> 同じ優先度の <em>ソフトウェア</em> タスクは互いに非同期に実行されるため、厳密な順序を <strong>一切</strong> 仮定できません。（ここで示している順序は現在の実装にのみ当てはまるものであり、RTIC フレームワークのリリース間で変わる可能性があります。）</p>
+</blockquote>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example async-channel-done --features test-critical-section
+Sender 1 sending: 1
+Sender 1 done
+Sender 2 sending: 2
+Sender 3 sending: 3
+Receiver got: 1
+Sender 2 done
+Receiver got: 2
+Sender 3 done
+Receiver got: 3
+</code></pre>
+<h2 id="エラーハンドリング"><a class="header" href="#エラーハンドリング">エラーハンドリング</a></h2>
+<p>すべての送信側がドロップされている場合、空の受信チャネルを <code>await</code> するとエラーになります。これにより、さまざまな種類のシャットダウン処理を適切に実装できます。</p>
+<pre><code class="language-rust noplayground">//! examples/async-channel-no-sender.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [SSI0])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+    use rtic_sync::{channel::*, make_channel};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    const CAPACITY: usize = 1;
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        let (_s, r) = make_channel!(u32, CAPACITY);
+
+        receiver::spawn(r).unwrap();
+
+        (Shared {}, Local {})
+    }
+
+    #[task]
+    async fn receiver(_c: receiver::Context, mut receiver: Receiver&lt;'static, u32, CAPACITY&gt;) {
+        hprintln!("Receiver got: {:?}", receiver.recv().await);
+
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example async-channel-no-sender --features test-critical-section
+</code></pre>
+<pre><code class="language-console">Receiver got: Err(NoSender)
+</code></pre>
+<p>同様に、レシーバーがドロップされている場合、送信チャネルを <code>await</code> するとエラーになります。これにより、アプリケーションレベルのエラーハンドリングを適切に実装できます。</p>
+<p>その際のエラーはデータを送信側に返すため、送信側は適切な対応（たとえば、後で再送するためにデータを保存するなど）を取ることができます。</p>
+<pre><code class="language-rust noplayground">//! examples/async-channel-no-receiver.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [SSI0])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+    use rtic_sync::{channel::*, make_channel};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    const CAPACITY: usize = 1;
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        let (s, _r) = make_channel!(u32, CAPACITY);
+
+        sender1::spawn(s.clone()).unwrap();
+
+        (Shared {}, Local {})
+    }
+
+    #[task]
+    async fn sender1(_c: sender1::Context, mut sender: Sender&lt;'static, u32, CAPACITY&gt;) {
+        hprintln!("Sender 1 sending: 1 {:?}", sender.send(1).await);
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example async-channel-no-receiver --features test-critical-section
+</code></pre>
+<pre><code class="language-console">Sender 1 sending: 1 Err(NoReceiver(1))
+</code></pre>
+<h2 id="try-api"><a class="header" href="#try-api">Try API</a></h2>
+<p>Try API を使うと、操作の成功を前提とせずに、また非 <code>async</code> コンテキストでも、チャネルへの送信およびチャネルからの受信を行えます。</p>
+<p>この API は <code>Receiver::try_recv</code> と <code>Sender::try_send</code> を通じて提供されています。</p>
+<pre><code class="language-rust noplayground">//! examples/async-channel-try.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [SSI0])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+    use rtic_sync::{channel::*, make_channel};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {
+        sender: Sender&lt;'static, u32, CAPACITY&gt;,
+    }
+
+    const CAPACITY: usize = 1;
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        let (s, r) = make_channel!(u32, CAPACITY);
+
+        receiver::spawn(r).unwrap();
+        sender1::spawn(s.clone()).unwrap();
+
+        (Shared {}, Local { sender: s.clone() })
+    }
+
+    #[task]
+    async fn receiver(_c: receiver::Context, mut receiver: Receiver&lt;'static, u32, CAPACITY&gt;) {
+        while let Ok(val) = receiver.recv().await {
+            hprintln!("Receiver got: {}", val);
+        }
+    }
+
+    #[task]
+    async fn sender1(_c: sender1::Context, mut sender: Sender&lt;'static, u32, CAPACITY&gt;) {
+        hprintln!("Sender 1 sending: 1");
+        sender.send(1).await.unwrap();
+        hprintln!("Sender 1 try sending: 2 {:?}", sender.try_send(2));
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+    }
+
+    // This interrupt is never triggered, but is used to demonstrate that
+    // one can (try to) send data into a channel from a hardware task.
+    #[task(binds = GPIOA, local = [sender])]
+    fn hw_task(cx: hw_task::Context) {
+        cx.local.sender.try_send(3).ok();
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example async-channel-try --features test-critical-section
+</code></pre>
+<pre><code class="language-console">Sender 1 sending: 1
+Sender 1 try sending: 2 Err(Full(2))
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="monotonic-を使った遅延とタイムアウト"><a class="header" href="#monotonic-を使った遅延とタイムアウト">Monotonic を使った遅延とタイムアウト</a></h1>
+<p>最小限のタイミング要件を表現する便利な方法の 1 つは、進行を遅延させることです。</p>
+<p>これは monotonic タイマーをインスタンス化することで実現できます（実装については <a href="https://github.com/rtic-rs/rtic/tree/master/rtic-monotonics"><code>rtic-monotonics</code></a> を参照してください）:</p>
+<pre><code class="language-rust noplayground">...
+    #[init]
+    fn init(cx: init::Context) -&gt; (Shared, Local) {
+        hprintln!("init");
+
+        Mono::start(cx.core.SYST, 12_000_000);
+        ...</code></pre>
+<p>_ソフトウェア_タスクは、遅延が満了するのを <code>await</code> できます:</p>
+<pre><code class="language-rust noplayground">#[task]
+async fn foo(_cx: foo::Context) {
+    ...
+    Mono::delay(100.millis()).await;
+    ...
+}
+</code></pre>
+<details>
+<summary>完全な例</summary>
+<pre><code class="language-rust noplayground">//! examples/async-delay.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [SSI0, UART0], peripherals = true)]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+    use rtic_monotonics::systick::prelude::*;
+
+    systick_monotonic!(Mono, 100);
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    #[init]
+    fn init(cx: init::Context) -&gt; (Shared, Local) {
+        hprintln!("init");
+
+        Mono::start(cx.core.SYST, 12_000_000);
+
+        foo::spawn().ok();
+        bar::spawn().ok();
+        baz::spawn().ok();
+
+        (Shared {}, Local {})
+    }
+
+    #[task]
+    async fn foo(_cx: foo::Context) {
+        hprintln!("hello from foo");
+        Mono::delay(100.millis()).await;
+        hprintln!("bye from foo");
+    }
+
+    #[task]
+    async fn bar(_cx: bar::Context) {
+        hprintln!("hello from bar");
+        Mono::delay(200.millis()).await;
+        hprintln!("bye from bar");
+    }
+
+    #[task]
+    async fn baz(_cx: baz::Context) {
+        hprintln!("hello from baz");
+        Mono::delay(300.millis()).await;
+        hprintln!("bye from baz");
+
+        debug::exit(debug::EXIT_SUCCESS);
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example async-delay --features test-critical-section
+</code></pre>
+<pre><code class="language-console">init
+hello from bar
+hello from baz
+hello from foo
+bye from foo
+bye from bar
+bye from baz
+</code></pre>
+</details>
+<blockquote>
+<p><a href="https://docs.rs/rtic-time/latest/rtic_time/trait.Monotonic.html"><code>Monotonic</code></a> の新しい実装への貢献や、monotonic の内部動作に関する詳しい情報に興味がありますか？
+<a href="#monotonic-の仕組み">Implementing a <code>Monotonic</code></a> の章を確認してください！</p>
+</blockquote>
+<h2 id="タイムアウト"><a class="header" href="#タイムアウト">タイムアウト</a></h2>
+<p>Rust の <a href="https://doc.rust-lang.org/std/future/trait.Future.html"><code>Future</code></a>（Rust の <code>async</code>/<code>await</code> を支える仕組み）は合成可能です。これにより、完了した <code>Future</code> の間で <code>select</code> することが可能になります。</p>
+<p>一般的なユースケースは、タイムアウトを伴うトランザクションです。以下に示す例では、<code>hal_get(n).await</code> を呼び出すと何らかの想定上のトランザクションを実行する、ダミーの HAL デバイスを導入しています。所要時間は入力パラメーター（<code>n</code>）に基づいて <code>350ms + n * 100ms</code> としてモデル化しています。</p>
+<p><code>futures</code> クレートの <code>select_biased</code> マクロを使うと、次のようになります:</p>
+<pre><code class="language-rust noplayground noplayground">        // Call hal with short relative timeout using `select_biased`
+        select_biased! {
+            v = hal_get(1).fuse() =&gt; hprintln!("hal returned {}", v),
+            _ = Mono::delay(200.millis()).fuse() =&gt;  hprintln!("timeout", ), // this will finish first
+        }
+
+        // Call hal with long relative timeout using `select_biased`
+        select_biased! {
+            v = hal_get(1).fuse() =&gt; hprintln!("hal returned {}", v), // hal finish first
+            _ = Mono::delay(1000.millis()).fuse() =&gt;  hprintln!("timeout", ),
+        }</code></pre>
+<p><code>hal_get</code> の完了に 450ms かかるとすると、200ms の短いタイムアウトは <code>hal_get</code> が完了する前に満了します。</p>
+<p>タイムアウトを 1000ms に延ばすと、<code>hal_get</code> のほうが先に完了します。</p>
+<p><code>select_biased</code> を使えば任意の数の futures を組み合わせられるため、非常に強力です。しかし、タイムアウトのパターンは頻繁に使われるため、<a href="https://github.com/rtic-rs/rtic/tree/master/rtic-monotonics"><code>rtic-monotonics</code></a> および <a href="https://github.com/rtic-rs/rtic/tree/master/rtic-time"><code>rtic-time</code></a> クレートによって提供される、より扱いやすいサポートが RTIC に組み込まれています。以下は別の例で、<code>Mono::delay_until</code> と <code>Mono::timeout_after</code> を使用します:</p>
+<pre><code class="language-rust noplayground">        // get the current time instance
+        let mut instant = Mono::now();
+
+        // do this 3 times
+        for n in 0..3 {
+            // absolute point in time without drift
+            instant += 1000.millis();
+            Mono::delay_until(instant).await;
+
+            // absolute point in time for timeout
+            let timeout = instant + 500.millis();
+            hprintln!("now is {:?}, timeout at {:?}", Mono::now(), timeout);
+
+            match Mono::timeout_at(timeout, hal_get(n)).await {
+                Ok(v) =&gt; hprintln!("hal returned {} at time {:?}", v, Mono::now()),
+                _ =&gt; hprintln!("timeout"),
+            }
+        }</code></pre>
+<p>ドリフトなしで時間を正確に制御したい場合は、時刻の正確な一点を表す <code>Instant</code> と、時間の区間を表す <code>Duration</code> を使えます。<code>Instant</code> 型と <code>Duration</code> 型に対する操作は <a href="https://crates.io/crates/fugit"><code>fugit</code></a> クレートによって提供されます。</p>
+<p><code>let mut instant = Mono::now()</code> は、実行の開始時刻を設定します。</p>
+<p>この開始時刻を基準に、1000ms ごとに <code>hal_get</code> を呼び出したいとします。これを実現するには、<code>instant</code> を 1000 ms ずつ増やし、その後で <code>Mono::delay_until(instant).await</code> を使います。このループを繰り返す中で発生する追加の遅延は、‘now + 1000’ ではなく ‘previous + 1000’ まで待機することで補償されます（‘now + 1000’ だとループのタイミングがドリフトします）。</p>
+<p>上記の <code>select!</code> を使った async タイムアウトの例に対する別の方法として、将来の時点を <code>timeout</code> として定義し、<code>Mono::timeout_at(timeout, hal_get(n)).await</code> を呼び出します。</p>
+<p>ループの 1 回目の反復では <code>n == 0</code> なので、<code>hal_get</code> は 350ms かかり（前述のとおり）、タイムアウト前に完了します。2 回目の反復では遅延は 450ms で、これも依然としてタイムアウト前に完了します。3 回目の反復では <code>n == 2</code> となり、<code>hal_get</code> の完了には 550ms かかるため、この場合はタイムアウトに達します。</p>
+<details>
+<summary>完全な例</summary>
+<pre><code class="language-rust noplayground">//! examples/async-timeout.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use cortex_m_semihosting::{debug, hprintln};
+use panic_semihosting as _;
+use rtic_monotonics::systick::prelude::*;
+systick_monotonic!(Mono, 100);
+
+#[rtic::app(device = lm3s6965, dispatchers = [SSI0, UART0], peripherals = true)]
+mod app {
+    use super::*;
+    use futures::{future::FutureExt, select_biased};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    // ANCHOR: init
+    #[init]
+    fn init(cx: init::Context) -&gt; (Shared, Local) {
+        hprintln!("init");
+
+        Mono::start(cx.core.SYST, 12_000_000);
+        // ANCHOR_END: init
+
+        foo::spawn().ok();
+
+        (Shared {}, Local {})
+    }
+
+    #[task]
+    async fn foo(_cx: foo::Context) {
+        // ANCHOR: select_biased
+        // Call hal with short relative timeout using `select_biased`
+        select_biased! {
+            v = hal_get(1).fuse() =&gt; hprintln!("hal returned {}", v),
+            _ = Mono::delay(200.millis()).fuse() =&gt;  hprintln!("timeout", ), // this will finish first
+        }
+
+        // Call hal with long relative timeout using `select_biased`
+        select_biased! {
+            v = hal_get(1).fuse() =&gt; hprintln!("hal returned {}", v), // hal finish first
+            _ = Mono::delay(1000.millis()).fuse() =&gt;  hprintln!("timeout", ),
+        }
+        // ANCHOR_END: select_biased
+
+        // ANCHOR: timeout_after_basic
+        // Call hal with long relative timeout using monotonic `timeout_after`
+        match Mono::timeout_after(1000.millis(), hal_get(1)).await {
+            Ok(v) =&gt; hprintln!("hal returned {}", v),
+            _ =&gt; hprintln!("timeout"),
+        }
+        // ANCHOR_END: timeout_after_basic
+
+        // ANCHOR: timeout_at_basic
+        // get the current time instance
+        let mut instant = Mono::now();
+
+        // do this 3 times
+        for n in 0..3 {
+            // absolute point in time without drift
+            instant += 1000.millis();
+            Mono::delay_until(instant).await;
+
+            // absolute point in time for timeout
+            let timeout = instant + 500.millis();
+            hprintln!("now is {:?}, timeout at {:?}", Mono::now(), timeout);
+
+            match Mono::timeout_at(timeout, hal_get(n)).await {
+                Ok(v) =&gt; hprintln!("hal returned {} at time {:?}", v, Mono::now()),
+                _ =&gt; hprintln!("timeout"),
+            }
+        }
+        // ANCHOR_END: timeout_at_basic
+
+        debug::exit(debug::EXIT_SUCCESS);
+    }
+}
+
+// Emulate some hal
+async fn hal_get(n: u32) -&gt; u32 {
+    // emulate some delay time dependent on n
+    let d = 350.millis() + n * 100.millis();
+    hprintln!("the hal takes a duration of {:?}", d);
+    Mono::delay(d).await;
+    // emulate some return value
+    5
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example async-timeout --features test-critical-section
+</code></pre>
+<pre><code class="language-console">init
+the hal takes a duration of Duration { ticks: 45 }
+timeout
+the hal takes a duration of Duration { ticks: 45 }
+hal returned 5
+the hal takes a duration of Duration { ticks: 45 }
+hal returned 5
+now is Instant { ticks: 213 }, timeout at Instant { ticks: 263 }
+the hal takes a duration of Duration { ticks: 35 }
+hal returned 5 at time Instant { ticks: 249 }
+now is Instant { ticks: 313 }, timeout at Instant { ticks: 363 }
+the hal takes a duration of Duration { ticks: 45 }
+hal returned 5 at time Instant { ticks: 359 }
+now is Instant { ticks: 413 }, timeout at Instant { ticks: 463 }
+the hal takes a duration of Duration { ticks: 55 }
+timeout
+</code></pre>
+</details><div style="break-before: page; page-break-before: always;"></div>
+<h1 id="最小のアプリケーション"><a class="header" href="#最小のアプリケーション">最小のアプリケーション</a></h1>
+<p>これは、可能な限り最小の RTIC アプリケーションです。</p>
+<pre><code class="language-rust noplayground">//! examples/smallest.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use core::panic::PanicInfo;
+use cortex_m_semihosting::debug;
+use rtic::app;
+
+#[app(device = lm3s6965)]
+mod app {
+    use super::*;
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {}
+
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+        (Shared {}, Local {})
+    }
+}
+
+#[panic_handler]
+fn panic_handler(_: &amp;PanicInfo) -&gt; ! {
+    debug::exit(debug::EXIT_FAILURE);
+    loop {}
+}</code></pre>
+<p>RTIC は、リソース効率を念頭に置いて設計されています。RTIC 自体はいかなる動的メモリ割り当てにも依存しないため、必要な RAM 量はアプリケーションのみに依存します。割り込みベクタテーブルを含めても、フラッシュメモリの使用量は 1kB 未満です。</p>
+<p>最小の例では、次のようなものが想定されます。</p>
+<pre><code class="language-console">$ cargo xtask size --example smallest --backend thumbv7
+</code></pre>
+<pre><code class="language-console">   text	   data	    bss	    dec	    hex	filename
+    604	      0	      4	    608	    260	smallest
+</code></pre>
+<!-- ---
+
+厳密には、RTIC は各 *ソフトウェア* タスクごとに、静的に割り当てられたフューチャー（`Context` 構造体やスタックに割り当てられた変数を含む実行コンテキストを保持するもの）を生成します。同じ静的優先度に関連付けられたフューチャーは、実行中に非同期スタックを共有します。  --><div style="break-before: page; page-break-before: always;"></div>
+<h1 id="ヒントとコツ"><a class="header" href="#ヒントとコツ">ヒントとコツ</a></h1>
+<p>このセクションでは、RTIC の使用に関する一般的なヒントとコツを紹介します。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="リソースの分解"><a class="header" href="#リソースの分解">リソースの分解</a></h1>
+<p>タスクが複数のリソースを受け取る場合、タスクのリソースを分割代入すると可読性が向上することがあります。以下に、リソース構造体を分割する 2 つの例を示します。</p>
+<pre><code class="language-rust noplayground">//! examples/destructure.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [UART0])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+
+    #[shared]
+    struct Shared {
+        a: u32,
+        b: u32,
+        c: u32,
+    }
+
+    #[local]
+    struct Local {}
+
+    #[init]
+    fn init(_: init::Context) -&gt; (Shared, Local) {
+        foo::spawn().unwrap();
+        bar::spawn().unwrap();
+
+        (Shared { a: 0, b: 1, c: 2 }, Local {})
+    }
+
+    #[idle]
+    fn idle(_: idle::Context) -&gt; ! {
+        debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+        loop {}
+    }
+
+    // Direct destructure
+    #[task(shared = [&amp;a, &amp;b, &amp;c], priority = 1)]
+    async fn foo(cx: foo::Context) {
+        let a = cx.shared.a;
+        let b = cx.shared.b;
+        let c = cx.shared.c;
+
+        hprintln!("foo: a = {}, b = {}, c = {}", a, b, c);
+    }
+
+    // De-structure-ing syntax
+    #[task(shared = [&amp;a, &amp;b, &amp;c], priority = 1)]
+    async fn bar(cx: bar::Context) {
+        let bar::SharedResources { a, b, c, .. } = cx.shared;
+
+        hprintln!("bar: a = {}, b = {}, c = {}", a, b, c);
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example destructure
+</code></pre>
+<pre><code class="language-console">bar: a = 0, b = 1, c = 2
+foo: a = 0, b = 1, c = 2
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="メッセージ受け渡しを高速化するための間接参照の利用"><a class="header" href="#メッセージ受け渡しを高速化するための間接参照の利用">メッセージ受け渡しを高速化するための間接参照の利用</a></h1>
+<p>メッセージ受け渡しでは、常に送信側から静的変数へ、さらに静的変数から受信側へと、ペイロードのコピーが発生します。そのため、<code>[u8; 128]</code> のような大きなバッファをメッセージとして送信すると、高コストな
+<code>memcpy</code> が 2 回発生します。</p>
+<p>間接参照を使うと、メッセージ受け渡しのオーバーヘッドを最小化できます。つまり、バッファを値として送る代わりに、バッファへの所有権を持つポインタを送ることができます。</p>
+<p>間接参照を実現するには、グローバルメモリアロケータ（<code>alloc::Box</code>、<code>alloc::Rc</code> など）を使う方法がありますが、Rust v1.37.0 時点では nightly チャネルの使用が必要です。あるいは、<a href="https://docs.rs/heapless/latest/heapless/pool/index.html"><code>heapless::Pool</code></a> のような静的に確保されたメモリプールを使うこともできます。</p>
+<p>このアプローチの例は、shared と local を持つ RTIC のリソースモデルを完全に外れるため、プログラムは、この場合 <code>heapless::pool</code> であるメモリアロケータの正しさに依存することになります。</p>
+<p>以下は、<code>heapless::Pool</code> を使って 128 バイトのバッファを「box 化」する例です。</p>
+<pre><code class="language-rust noplayground">//! examples/pool.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+
+use panic_semihosting as _;
+use rtic::app;
+
+// thumbv6-none-eabi does not support pool
+// This might be better worked around in the build system,
+// but for proof of concept, let's try having one example
+// being different for different backends
+// https://docs.rs/heapless/0.8.0/heapless/pool/index.html#target-support
+cfg_if::cfg_if! {
+    if #[cfg(feature = "thumbv6-backend")] {
+        // Copy of the smallest.rs example
+        #[app(device = lm3s6965)]
+        mod app {
+            use cortex_m_semihosting::debug;
+
+            #[shared]
+            struct Shared {}
+
+            #[local]
+            struct Local {}
+
+            #[init]
+            fn init(_: init::Context) -&gt; (Shared, Local) {
+                debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+                (Shared {}, Local {})
+            }
+        }
+    } else {
+        // Run actual pool example
+        use heapless::{
+            box_pool,
+            pool::boxed::{Box, BoxBlock},
+        };
+
+        // Declare a pool containing 8-byte memory blocks
+        box_pool!(P: u8);
+
+        const POOL_CAPACITY: usize = 512;
+
+        #[app(device = lm3s6965, dispatchers = [SSI0, QEI0])]
+        mod app {
+            use crate::{Box, BoxBlock, POOL_CAPACITY};
+            use cortex_m_semihosting::debug;
+            use lm3s6965::Interrupt;
+
+            // Import the memory pool into scope
+            use crate::P;
+
+            #[shared]
+            struct Shared {}
+
+            #[local]
+            struct Local {}
+
+            const BLOCK: BoxBlock&lt;u8&gt; = BoxBlock::new();
+
+            #[init(local = [memory: [BoxBlock&lt;u8&gt;; POOL_CAPACITY] = [BLOCK; POOL_CAPACITY]])]
+            fn init(cx: init::Context) -&gt; (Shared, Local) {
+                for block in cx.local.memory {
+                    // Give the 'static memory to the pool
+                    P.manage(block);
+                }
+
+                rtic::pend(Interrupt::I2C0);
+
+                (Shared {}, Local {})
+            }
+
+            #[task(binds = I2C0, priority = 2)]
+            fn i2c0(_: i2c0::Context) {
+                // Claim 128 u8 blocks
+                let x = P.alloc(128).unwrap();
+
+                // .. send it to the `foo` task
+                foo::spawn(x).ok().unwrap();
+
+                // send another 128 u8 blocks to the task `bar`
+                bar::spawn(P.alloc(128).unwrap()).ok().unwrap();
+            }
+
+            #[task]
+            async fn foo(_: foo::Context, _x: Box&lt;P&gt;) {
+                // explicitly return the block to the pool
+                drop(_x);
+
+                debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+            }
+
+            #[task(priority = 2)]
+            async fn bar(_: bar::Context, _x: Box&lt;P&gt;) {
+                // this is done automatically so we can omit the call to `drop`
+                // drop(_x);
+            }
+        }
+    }
+}</code></pre>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example pool
+</code></pre>
+<pre><code class="language-console">
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="static-の強力な力"><a class="header" href="#static-の強力な力"><code>'static</code> の強力な力</a></h1>
+<p><code>#[init]</code>、<code>#[idle]</code>、および発散するソフトウェアタスクでは、<code>local</code> リソースは <code>'static</code> ライフタイムを持ちます。</p>
+<p>これは、リソースを事前に割り当てたり、タスク、ドライバー、またはその他のオブジェクト間でリソースを分割したりする際に便利です。これは、USB ドライバーのようにメモリを割り当てる必要があるドライバーや、<a href="https://docs.rs/heapless/0.7.5/heapless/spsc/struct.Queue.html"><code>heapless::spsc::Queue</code></a> のような分割可能なデータ構造を使用する場合に役立ちます。</p>
+<p>次の例では、2 つの異なるタスクが <a href="https://docs.rs/heapless/0.7.5/heapless/spsc/struct.Queue.html"><code>heapless::spsc::Queue</code></a> を共有し、共有キューにロックフリーでアクセスします。</p>
+<pre><code class="language-rust noplayground">//! examples/static-resources-in-init.rs
+
+#![no_main]
+#![no_std]
+#![deny(warnings)]
+#![deny(unsafe_code)]
+#![deny(missing_docs)]
+
+use panic_semihosting as _;
+
+#[rtic::app(device = lm3s6965, dispatchers = [UART0])]
+mod app {
+    use cortex_m_semihosting::{debug, hprintln};
+    use heapless::spsc::{Consumer, Producer, Queue};
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {
+        p: Producer&lt;'static, u32, 5&gt;,
+        c: Consumer&lt;'static, u32, 5&gt;,
+    }
+
+    #[init(local = [q: Queue&lt;u32, 5&gt; = Queue::new()])]
+    fn init(cx: init::Context) -&gt; (Shared, Local) {
+        // q has 'static life-time so after the split and return of `init`
+        // it will continue to exist and be allocated
+        let (p, c) = cx.local.q.split();
+
+        foo::spawn().unwrap();
+
+        (Shared {}, Local { p, c })
+    }
+
+    #[idle(local = [c])]
+    fn idle(c: idle::Context) -&gt; ! {
+        loop {
+            // Lock-free access to the same underlying queue!
+            if let Some(data) = c.local.c.dequeue() {
+                hprintln!("received message: {}", data);
+
+                // Run foo until data
+                if data == 3 {
+                    debug::exit(debug::EXIT_SUCCESS); // Exit QEMU simulator
+                } else {
+                    foo::spawn().unwrap();
+                }
+            }
+        }
+    }
+
+    #[task(local = [p, state: u32 = 0], priority = 1)]
+    async fn foo(c: foo::Context) {
+        *c.local.state += 1;
+
+        // Lock-free access to the same underlying queue!
+        c.local.p.enqueue(*c.local.state).unwrap();
+    }
+}</code></pre>
+<p>このプログラムを実行すると、期待どおりの出力が得られます。</p>
+<pre><code class="language-console">$ cargo xtask qemu --verbose --example static-resources-in-init
+</code></pre>
+<pre><code class="language-console">received message: 1
+received message: 2
+received message: 3
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="生成されたコードの確認"><a class="header" href="#生成されたコードの確認">生成されたコードの確認</a></h1>
+<p><code>#[rtic::app]</code> は補助コードを生成するプロシージャルマクロです。
+何らかの理由でこのマクロによって生成されたコードを確認する必要がある場合、方法は 2 つあります。</p>
+<ul>
+<li><code>target</code> ディレクトリ内の <code>rtic-expansion.rs</code> ファイルを確認する</li>
+<li><a href="https://crates.io/crates/cargo-expand"><code>cargo-expand</code></a> サブコマンドを使う</li>
+</ul>
+<h2 id="生成された-rtic-expansionrs-を使う"><a class="header" href="#生成された-rtic-expansionrs-を使う">生成された <code>rtic-expansion.rs</code> を使う</a></h2>
+<p>このファイルの場所は、ビルドの実行方法によって異なります。</p>
+<p>たとえばメインの RTIC リポジトリ内で <code>cargo xtask build-example</code> を使うと、このファイルは使用した “platform” に応じて配置されます。</p>
+<pre><code>$ cargo xtask example-build --example smallest
+$ cargo xtask example-build --example monotonic --platform esp32-c3
+
+$ fd -u rtic-expansion.rs
+examples/esp32c3/target/rtic-expansion.rs
+examples/lm3s6965/target/rtic-expansion.rs
+</code></pre>
+<p>通常の cargo プロジェクトの場合は、<code>target</code> フォルダー直下に置かれます。</p>
+<p>このファイルには、<em>最後にビルドされた</em>（<code>cargo build</code> または <code>cargo check</code> による）RTIC アプリケーションの <code>#[rtic::app]</code> アイテムの展開結果（プログラム全体ではありません！）が含まれます。
+展開されたコードはデフォルトでは整形されていないため、読む前に <code>rustfmt</code> を実行したくなるでしょう。</p>
+<pre><code class="language-console">$ cargo build --example smallest --target thumbv7m-none-eabi
+</code></pre>
+<pre><code class="language-console">$ rustfmt target/rtic-expansion.rs
+</code></pre>
+<pre><code class="language-console">$ tail target/rtic-expansion.rs
+</code></pre>
+<pre><code class="language-rust noplayground">#[doc = r" Implementation details"]
+mod app {
+    #[doc = r" Always include the device crate which contains the vector table"]
+    use lm3s6965 as _;
+    #[no_mangle]
+    unsafe extern "C" fn main() -&gt; ! {
+        rtic::export::interrupt::disable();
+        let mut core: rtic::export::Peripherals = core::mem::transmute(());
+        core.SCB.scr.modify(|r| r | 1 &lt;&lt; 1);
+        rtic::export::interrupt::enable();
+        loop {
+            rtic::export::wfi()
+        }
+    }
+}</code></pre>
+<h2 id="cargo-expand-ツールを使う"><a class="header" href="#cargo-expand-ツールを使う"><code>cargo-expand</code> ツールを使う</a></h2>
+<p>利用できない場合は、インストールしてください。</p>
+<pre><code>$ cargo install cargo-expand
+</code></pre>
+<p>このサブコマンドは、<code>#[rtic::app]</code> 属性やクレート内のモジュールを含む <em>すべて</em> のマクロを展開し、その出力をコンソールに表示します。</p>
+<pre><code class="language-console"># 前と同じ出力を生成します
+</code></pre>
+<pre><code class="language-console">cargo expand --example smallest | tail
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="monotonic-の仕組み"><a class="header" href="#monotonic-の仕組み">Monotonic の仕組み</a></h1>
+<p>内部では、すべての Monotonic 実装が <a href="#the-timer-queue">Timer Queue</a> を使用します。これは、対応する <code>Future</code> が完了すべき時刻を記述したエントリを持つ優先度キューです。</p>
+<h2 id="スケジューリング用-monotonic-タイマーの実装"><a class="header" href="#スケジューリング用-monotonic-タイマーの実装">スケジューリング用 <code>Monotonic</code> タイマーの実装</a></h2>
+<p><a href="https://docs.rs/rtic-time/latest/rtic_time"><code>rtic-time</code></a> フレームワークは、コンペアマッチを備え、さらに必要に応じてスケジューリング用のオーバーフロー割り込みもサポートする任意のタイマーを利用できるため、柔軟です。タイマーを RTIC で利用可能にするための唯一の要件は、<a href="https://docs.rs/rtic-time/latest/rtic_time/trait.Monotonic.html"><code>rtic-time::Monotonic</code></a> トレイトを実装することです。</p>
+<p>RTIC 2.0 では、<a href="https://docs.rs/rtic-time/latest/rtic_time/trait.Monotonic.html"><code>Monotonic</code></a> を実装する際のすべての時間ベースの操作の基盤として、ユーザーが <a href="https://docs.rs/fugit/"><code>fugit</code></a> などの時間ライブラリを利用していることを前提としています。これらのライブラリを使うことで、<a href="https://docs.rs/rtic-time/latest/rtic_time/trait.Monotonic.html"><code>Monotonic</code></a> トレイトを正しく実装することが大幅に容易になり、その結果、システム内のほぼ任意のタイマーをスケジューリングに使用できるようになります。</p>
+<p>このトレイトには、各メソッドに対する要件が記載されています。参考にできるリファレンス実装が <a href="https://github.com/rtic-rs/rtic/tree/master/rtic-monotonics/"><code>rtic-monotonics</code></a> に用意されています。</p>
+<ul>
+<li><a href="https://github.com/rtic-rs/rtic/blob/master/rtic-monotonics/src/systick.rs"><code>Systick based</code></a> は固定の割り込み（tick）レートで動作します。多少のオーバーヘッドはありますが、シンプルで、長い時間範囲をサポートします</li>
+<li><a href="https://github.com/rtic-rs/rtic/blob/master/rtic-monotonics/src/rp2040.rs"><code>RP2040 Timer</code></a> は、割り込みなしで長時間待機できる「本格的な」実装です。スケジューリングを処理するために <a href="https://docs.rs/rtic-time/latest/rtic_time/timer_queue/struct.TimerQueue.html"><code>TimerQueue</code></a> をどのように使うかを明確に示しています。</li>
+<li><a href="https://github.com/rtic-rs/rtic/blob/master/rtic-monotonics/src/nrf.rs"><code>nRF52 timers</code></a> は、nRF52 の RTC と通常タイマー向けに Monotonic とタイマーキューを実装しています</li>
+</ul>
+<h2 id="貢献"><a class="header" href="#貢献">貢献</a></h2>
+<p><code>Monotonic</code> の新しい実装への貢献は、複数の方法で行えます。</p>
+<ul>
+<li><a href="https://github.com/rtic-rs/rtic/tree/master/rtic-monotonics/"><code>rtic-monotonics</code></a> に feature flag の下でこのトレイトを実装し、それらをメインの RTIC リポジトリに含めるための PR を作成してください。この方法なら、実装は in-tree となるため、RTIC はその正しさを保証でき、新しいリリース時に更新できます。</li>
+<li>外部リポジトリで変更を実装してください。この方法では <a href="https://github.com/rtic-rs/rtic/tree/master/rtic-monotonics/"><code>rtic-monotonics</code></a> に含まれませんが、将来的にそうしやすくなる可能性があります。</li>
+</ul>
+<h2 id="the-timer-queue"><a class="header" href="#the-timer-queue">The timer queue</a></h2>
+<p>タイマーキューはリストベースの優先度キューとして実装されており、リストノードは、monotonic を待機する際に作成される Future を <code>await</code> したときに生成される  <code>Future</code> の一部として静的に割り当てられます。したがって、タイマーキューは実行時に失敗しません（そのサイズと割り当てはコンパイル時に決定されます）。</p>
+<p>チャネル実装と同様に、タイマーキュー実装は競合を防ぐためにグローバルな <em>クリティカルセクション</em> (CS) に依存しています。例では、ビルドオプションに <code>--features test-critical-section</code> を追加することで、CS 実装が提供されます。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="rtic-と他方式の比較"><a class="header" href="#rtic-と他方式の比較">RTIC と他方式の比較</a></h1>
+<p>RTIC は、堅牢かつ信頼性の高い組み込みソフトウェアの開発に必要とされる、最小限の抽象化レベルを提供することを目指しています。</p>
+<p>割り込みと非同期に実行されるタスクの間で可変リソースを安全に共有するために必要な、最小限の機構を提供します。スケジューリングプリミティブは基盤となるハードウェアを活用し、比類のない性能と予測可能性を実現します。事実上、RTIC は Rust の文脈において、並行リアルタイムプログラミングに対するゼロコスト抽象化を提供します。</p>
+<h2 id="安全性とセキュリティに関する比較"><a class="header" href="#安全性とセキュリティに関する比較">安全性とセキュリティに関する比較</a></h2>
+<p>RTIC を従来のリアルタイムオペレーティングシステム（RTOS）と比較するのは困難です。まず、従来の RTOS は通常、システムの安全性に関して何の保証も伴いません。これは、形式的に検証された <a href="https://sel4.systems/">seL4</a> カーネルのような最も堅牢化されたカーネルであっても同様です。完全性、機密性、可用性に関するそれらの主張は、カーネル自体にのみ関するものです（さらに、その構成と環境について追加の仮定を置いた場合に限ります）。彼ら自身も次のように述べています。</p>
+<p>「検証済みかどうかにかかわらず、OS カーネルがあるからといって、システムが自動的にセキュアになるわけではありません。実際、どれほどセキュアなシステムであっても、セキュアでない方法で使用される可能性があります。」 - <a href="https://docs.sel4.systems/projects/sel4/frequently-asked-questions.html">seL4 FAQ</a></p>
+<h2 id="設計によるセキュリティ"><a class="header" href="#設計によるセキュリティ">設計によるセキュリティ</a></h2>
+<p>情報セキュリティの世界では、一般に次の 3 つが挙げられます。</p>
+<ul>
+<li>機密性。情報が権限のない第三者にさらされるのを防ぐこと。</li>
+<li>完全性。データの正確性と完全さを指すこと。</li>
+<li>可用性。認可されたユーザーがデータにアクセスできることを指すこと。</li>
+</ul>
+<p>言うまでもなく、従来の OS は機密性も完全性も保証できません。どちらも、セキュリティクリティカルなコードが信頼できることを前提とするためです。可用性については、通常、問題はシステムリソースの利用に帰着します。リソースの動的割り当てを許可する OS はいずれも、アプリケーションが割り当て/解放と、割り当て失敗のケースを正しく処理することに依存します。</p>
+<p>したがって、彼らの主張は正しく、セキュリティは OS の手の及ぶ範囲を完全に超えています。私たちが期待できる最善は、OS がさらなる脆弱性を追加しないことです。</p>
+<p>一方、RTIC はその点で頼りになります。宣言的なシステム全体モデルにより、静的なタスクとリソースの集合が提供され、どのデータがどの主体間で共有されるのかを正確に制御できます。さらに、Rust というプログラミング言語自体が、完全性に関して強力な性質を備えています（コンパイル時のエイリアシング、可変性、ライフタイムに関する保証に加えて、データの妥当性も保証されます）。</p>
+<p>RTIC を使用すると、これらの性質は、他に実行中のアプリケーションの干渉を受けることなく、システム全体モデルにも及びます。RTIC カーネルは、動的に割り当てられたデータを一切必要とせず、内部的に失敗しません。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="rtic-vs-embassy"><a class="header" href="#rtic-vs-embassy">RTIC vs. Embassy</a></h1>
+<h2 id="違い"><a class="header" href="#違い">違い</a></h2>
+<p>Embassy はハードウェア抽象化レイヤーとエグゼキューター/ランタイムの両方を提供しますが、RTIC は実行フレームワークのみを提供することを目指しています。たとえば、embassy は <code>embassy-stm32</code>（HAL）と <code>embassy-executor</code>（エグゼキューター）を提供します。一方、RTIC は <a href="https://docs.rs/rtic/latest/rtic/"><code>rtic</code></a> の形でフレームワークを提供し、PAC と HAL の実装はユーザーが用意する責任があります（一般的には <a href="https://github.com/stm32-rs"><code>stm32-rs</code></a> プロジェクトのものを使用します）。</p>
+<p>さらに、RTIC は可能な限り低いレベルでリソースへの排他的アクセスを提供することを目指しており、理想的には何らかの形のハードウェア保護によって保護されます。これにより、ソフトウェアレベルのロック機構を必ずしも必要とせずにハードウェアへアクセスできます。</p>
+<h2 id="embassy-と-rtic-の併用"><a class="header" href="#embassy-と-rtic-の併用">Embassy と RTIC の併用</a></h2>
+<p>ほとんどの Embassy および RTIC のライブラリはランタイム非依存であるため、一方のプロジェクトの多くの要素はもう一方でも使用できます。たとえば、<code>embassy-executor</code> を使用するプロジェクトで <a href="https://docs.rs/rtic-monotonics/latest/rtic_monotonics/"><code>rtic-monotonics</code></a> を使用できますし、RTIC プロジェクトで <a href="https://docs.rs/embassy-sync/latest/embassy_sync/"><code>embassy-sync</code></a>（ただし <a href="https://docs.rs/rtic-sync/latest/rtic_sync/"><code>rtic-sync</code></a> を推奨）を使用することもできます。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="awesome-rtic-のサンプル"><a class="header" href="#awesome-rtic-のサンプル">Awesome RTIC のサンプル</a></h1>
+<p>完全なサンプルについては、<a href="https://github.com/rtic-rs/rtic/tree/master/examples"><code>rtic-rs/rtic/examples</code></a> リポジトリを参照してください。</p>
+<p>プルリクエストを歓迎します！</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="v10x-から-v200-への移行"><a class="header" href="#v10x-から-v200-への移行">v1.0.x から v2.0.0 への移行</a></h1>
+<p>RTIC <code>v1.0.x</code> から <code>v2.0.0</code> へプロジェクトを移行するには、次の手順が必要です。</p>
+<ol>
+<li><code>v2.1.0</code> は Rust Stable 1.75 以降で動作します（<strong>推奨</strong>）。一方、古いバージョンでは <a href="https://github.com/rust-lang/rust/issues/63063"><code>#![type_alias_impl_trait]</code></a> を使用するため、<code>nightly</code> コンパイラが必要です。</li>
+<li><code>v1.0.x</code> に含まれている monotonic を <code>rtic-time</code> および <code>rtic-monotonics</code> へ移行し、<code>spawn_after</code>、<code>spawn_at</code> を置き換えます。</li>
+<li>ソフトウェアタスクは <code>async</code> であることが必須になったため、それらを正しく使用します。</li>
+<li><code>rtic-sync</code> が提供するデータ型を理解し、使用します。</li>
+</ol>
+<p>変更点の詳細については、各小節を参照してください。</p>
+<p>必要な変更のコード例を見たい場合は、<a href="#移行の完全な例">完全な移行例のページ</a> を参照してください。</p>
+<h4 id="tldr長いので要点だけ"><a class="header" href="#tldr長いので要点だけ">TL;DR（長いので要点だけ）</a></h4>
+<ol>
+<li><code>spawn_after</code> と <code>spawn_at</code> の代わりに、<code>rtic-monotonics</code> が実装を提供する <code>async</code> 関数 <code>delay</code>、<code>delay_until</code>（および関連する関数）を使用するようになりました。</li>
+<li>ソフトウェアタスクは теперь <em>必ず</em> <code>async fn</code> でなければなりません。タスク内に <code>await</code> がある限り、タスクから戻らないことも許可されます。共有リソースは引き続き <code>lock</code> できます。</li>
+<li>新しいタスクを <code>spawn</code> する代わりに、共有リソースへのアクセスを <code>await</code> するには <code>rtic_sync::arbiter::Arbiter</code> を使用し、タスク間で通信するには <code>rtic_sync::channel::Channel</code> を使用します。</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="rtic-monotonics-への移行"><a class="header" href="#rtic-monotonics-への移行"><code>rtic-monotonics</code> への移行</a></h1>
+<p>以前の <code>rtic</code> のバージョンでは、モノトニックは <code>#[rtic::app]</code> の不可欠で密結合な一部でした。この新しいバージョンでは、<a href="https://github.com/rtic-rs/rtic"><code>rtic-monotonics</code></a> によって、より疎結合な方法で提供されます。</p>
+<p><code>#[monotonic]</code> 属性はもう使用しません。代わりに、<a href="https://github.com/rtic-rs/rtic"><code>rtic-monotonics</code></a> の <code>create_X_token</code> を使用します。このマクロを呼び出すと割り込み登録トークンが返され、これを使って目的のモノトニックのインスタンスを構築できます。</p>
+<p><code>spawn_after</code> と <code>spawn_at</code> はもう利用できません。代わりに、<a href="https://github.com/rtic-rs/rtic"><code>rtic-monotonics</code></a> を通じて利用できる <code>rtic_time::Monotonic</code> トレイトの実装が提供する async 関数 <code>delay</code> と <code>delay_until</code> を使用します。</p>
+<p>必要な変更の概要については、<a href="#移行の完全な例">コード例</a> を参照してください。</p>
+<p>現在のモノトニック実装の詳細については、<a href="https://docs.rs/rtic-monotonics"><code>rtic-monotonics</code> のドキュメント</a> と、<a href="https://github.com/rtic-rs/rtic/tree/master/examples">サンプル</a> を参照してください。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="async-ソフトウェアタスクの使用"><a class="header" href="#async-ソフトウェアタスクの使用"><code>async</code> ソフトウェアタスクの使用</a></h1>
+<p>ソフトウェアタスクにはいくつかの変更があります。以下に概要を示します。</p>
+<h3 id="ソフトウェアタスクは-async-でなければならなくなりました"><a class="header" href="#ソフトウェアタスクは-async-でなければならなくなりました">ソフトウェアタスクは <code>async</code> でなければならなくなりました。</a></h3>
+<p>すべてのソフトウェアタスクは <code>async</code> であることが必須になりました。</p>
+<h4 id="必要な変更"><a class="header" href="#必要な変更">必要な変更。</a></h4>
+<p>プロジェクト内で割り込みにバインドされていないタスクは、すべて <code>async fn</code> でなければならなくなりました。たとえば:</p>
+<pre><code class="language-rust noplayground">#[task(
+    local = [ some_resource ],
+    shared = [ my_shared_resource ],
+    priority = 2
+)]
+fn my_task(cx: my_task::Context) {
+    cx.local.some_resource.do_trick();
+    cx.shared.my_shared_resource.lock(|s| s.do_shared_thing());
+}</code></pre>
+<p>これは次のようになります</p>
+<pre><code class="language-rust noplayground">#[task(
+    local = [ some_resource ],
+    shared = [ my_shared_resource ],
+    priority = 2
+)]
+async fn my_task(cx: my_task::Context) {
+    cx.local.some_resource.do_trick();
+    cx.shared.my_shared_resource.lock(|s| s.do_shared_thing());
+}</code></pre>
+<h2 id="ソフトウェアタスクは無限に実行できるようになりました"><a class="header" href="#ソフトウェアタスクは無限に実行できるようになりました">ソフトウェアタスクは無限に実行できるようになりました</a></h2>
+<p>新しい <code>async</code> ソフトウェアタスクは、1 つの前提条件のもとで無限に実行することが許可されています。<strong>タスクの無限ループ内に <code>await</code> が存在しなければなりません</strong>。そのようなタスクの例を次に示します:</p>
+<pre><code class="language-rust noplayground">#[task(local = [ my_channel ] )]
+async fn my_task_that_runs_forever(cx: my_task_that_runs_forever::Context) {
+    loop {
+        let value = cx.local.my_channel.recv().await;
+        do_something_with_value(value);
+    }
+}</code></pre>
+<h2 id="spawn_after-と-spawn_at-は削除されました"><a class="header" href="#spawn_after-と-spawn_at-は削除されました"><code>spawn_after</code> と <code>spawn_at</code> は削除されました。</a></h2>
+<p><a href="#rtic-monotonics-への移行"><code>rtic-monotonics</code> への移行</a> の章で説明したとおり、<code>spawn_after</code> と <code>spawn_at</code> はもう利用できません。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="rtic-sync-を使う"><a class="header" href="#rtic-sync-を使う"><code>rtic-sync</code> を使う</a></h1>
+<p><code>rtic-sync</code> は、非同期コンテキストでのメッセージパッシングやリソース共有に使用できるプリミティブを提供します。</p>
+<p>重要な構造体は次のとおりです。</p>
+<ul>
+<li><code>Arbiter</code>: <code>lock</code> を使用せずに、非同期コンテキストで共有リソースへのアクセスを await できます。</li>
+<li><code>Channel</code>: タスク間（<code>async</code> と非 <code>async</code> の両方）で通信できます。</li>
+</ul>
+<p>これらの構造体の詳細については、<a href="https://docs.rs/rtic-sync"><code>rtic-sync</code> のドキュメント</a>を参照してください。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="移行の完全な例"><a class="header" href="#移行の完全な例">移行の完全な例</a></h1>
+<p>以下に、v1.0.x および v2.0.0 における <code>stm32f3_blinky</code> サンプルの実装コードを示します。さらに下に、diff を示します。</p>
+<h1 id="v10x"><a class="header" href="#v10x">v1.0.X</a></h1>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span>#![deny(unsafe_code)]
+#![deny(warnings)]
+#![no_main]
+#![no_std]
+
+<span class="boring">fn main() {
+</span>use panic_rtt_target as _;
+use rtic::app;
+use rtt_target::{rprintln, rtt_init_print};
+use stm32f3xx_hal::gpio::{Output, PushPull, PA5};
+use stm32f3xx_hal::prelude::*;
+use systick_monotonic::{fugit::Duration, Systick};
+
+#[app(device = stm32f3xx_hal::pac, peripherals = true, dispatchers = [SPI1])]
+mod app {
+    use super::*;
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {
+        led: PA5&lt;Output&lt;PushPull&gt;&gt;,
+        state: bool,
+    }
+
+    #[monotonic(binds = SysTick, default = true)]
+    type MonoTimer = Systick&lt;1000&gt;;
+
+    #[init]
+    fn init(cx: init::Context) -&gt; (Shared, Local, init::Monotonics) {
+        // クロックを設定
+        let mut flash = cx.device.FLASH.constrain();
+        let mut rcc = cx.device.RCC.constrain();
+
+        let mono = Systick::new(cx.core.SYST, 36_000_000);
+
+        rtt_init_print!();
+        rprintln!("init");
+
+        let _clocks = rcc
+            .cfgr
+            .use_hse(8.MHz())
+            .sysclk(36.MHz())
+            .pclk1(36.MHz())
+            .freeze(&amp;mut flash.acr);
+
+        // LED を設定
+        let mut gpioa = cx.device.GPIOA.split(&amp;mut rcc.ahb);
+        let mut led = gpioa
+            .pa5
+            .into_push_pull_output(&amp;mut gpioa.moder, &amp;mut gpioa.otyper);
+        led.set_high().unwrap();
+
+        // 点滅タスクをスケジュール
+        blink::spawn_after(Duration::&lt;u64, 1, 1000&gt;::from_ticks(1000)).unwrap();
+
+        (
+            Shared {},
+            Local { led, state: false },
+            init::Monotonics(mono),
+        )
+    }
+
+    #[task(local = [led, state])]
+    fn blink(cx: blink::Context) {
+        rprintln!("blink");
+        if *cx.local.state {
+            cx.local.led.set_high().unwrap();
+            *cx.local.state = false;
+        } else {
+            cx.local.led.set_low().unwrap();
+            *cx.local.state = true;
+        }
+        blink::spawn_after(Duration::&lt;u64, 1, 1000&gt;::from_ticks(1000)).unwrap();
+    }
+}
+
+<span class="boring">}</span></code></pre>
+<h1 id="v200"><a class="header" href="#v200">V2.0.0</a></h1>
+<pre><code class="language-rust noplayground">#![deny(unsafe_code)]
+#![deny(warnings)]
+#![no_main]
+#![no_std]
+
+use panic_rtt_target as _;
+use rtic::app;
+use rtic_monotonics::systick::prelude::*;
+use rtt_target::{rprintln, rtt_init_print};
+use stm32f3xx_hal::gpio::{Output, PushPull, PA5};
+use stm32f3xx_hal::prelude::*;
+
+systick_monotonic!(Mono, 1000);
+
+#[app(device = stm32f3xx_hal::pac, peripherals = true, dispatchers = [SPI1])]
+mod app {
+    use super::*;
+
+    #[shared]
+    struct Shared {}
+
+    #[local]
+    struct Local {
+        led: PA5&lt;Output&lt;PushPull&gt;&gt;,
+        state: bool,
+    }
+
+    #[init]
+    fn init(cx: init::Context) -&gt; (Shared, Local) {
+        // Setup clocks
+        let mut flash = cx.device.FLASH.constrain();
+        let mut rcc = cx.device.RCC.constrain();
+
+        // Initialize the systick interrupt &amp; obtain the token to prove that we did
+        Mono::start(cx.core.SYST, 36_000_000); // default STM32F303 clock-rate is 36MHz
+
+        rtt_init_print!();
+        rprintln!("init");
+
+        let _clocks = rcc
+            .cfgr
+            .use_hse(8.MHz())
+            .sysclk(36.MHz())
+            .pclk1(36.MHz())
+            .freeze(&amp;mut flash.acr);
+
+        // Setup LED
+        let mut gpioa = cx.device.GPIOA.split(&amp;mut rcc.ahb);
+        let mut led = gpioa
+            .pa5
+            .into_push_pull_output(&amp;mut gpioa.moder, &amp;mut gpioa.otyper);
+        led.set_high().unwrap();
+
+        // Schedule the blinking task
+        blink::spawn().ok();
+
+        (Shared {}, Local { led, state: false })
+    }
+
+    #[task(local = [led, state])]
+    async fn blink(cx: blink::Context) {
+        loop {
+            rprintln!("blink");
+            if *cx.local.state {
+                cx.local.led.set_high().unwrap();
+                *cx.local.state = false;
+            } else {
+                cx.local.led.set_low().unwrap();
+                *cx.local.state = true;
+            }
+            Mono::delay(1000.millis()).await;
+        }
+    }
+}</code></pre>
+<h2 id="2-つのプロジェクト間の-diff"><a class="header" href="#2-つのプロジェクト間の-diff">2 つのプロジェクト間の diff</a></h2>
+<p><em>注</em>: この diff は 100% 正確ではない可能性がありますが、重要な変更点を示しています。</p>
+<pre><code class="language-diff">#![no_main]
+ #![no_std]
+ 
+ use panic_rtt_target as _;
+ use rtic::app;
+ use stm32f3xx_hal::gpio::{Output, PushPull, PA5};
+ use stm32f3xx_hal::prelude::*;
+-use systick_monotonic::{fugit::Duration, Systick};
++use rtic_monotonics::Systick;
+ 
+ #[app(device = stm32f3xx_hal::pac, peripherals = true, dispatchers = [SPI1])]
+ mod app {
+@@ -20,16 +21,14 @@ mod app {
+         state: bool,
+     }
+ 
+-    #[monotonic(binds = SysTick, default = true)]
+-    type MonoTimer = Systick&lt;1000&gt;;
+-
+     #[init]
+     fn init(cx: init::Context) -&gt; (Shared, Local, init::Monotonics) {
+-        // Setup clocks
++        // クロックを設定
+         let mut flash = cx.device.FLASH.constrain();
+         let mut rcc = cx.device.RCC.constrain();
+ 
+-        let mono = Systick::new(cx.core.SYST, 36_000_000);
++        let mono_token = rtic_monotonics::create_systick_token!();
++        let mono = Systick::start(cx.core.SYST, 36_000_000, mono_token);
+ 
+         let _clocks = rcc
+             .cfgr
+@@ -46,7 +45,7 @@ mod app {
+         led.set_high().unwrap();
+ 
+-        // Schedule the blinking task
++        // 点滅タスクをスケジュール
+-        blink::spawn_after(Duration::&lt;u64, 1, 1000&gt;::from_ticks(1000)).unwrap();
++        blink::spawn().unwrap();
+ 
+         (
+             Shared {},
+@@ -56,14 +55,18 @@ mod app {
+     }
+ 
+     #[task(local = [led, state])]
+-    fn blink(cx: blink::Context) {
+-        rprintln!("blink");
+-        if *cx.local.state {
+-            cx.local.led.set_high().unwrap();
+-            *cx.local.state = false;
+-        } else {
+-            cx.local.led.set_low().unwrap();
+-            *cx.local.state = true;
+-        blink::spawn_after(Duration::&lt;u64, 1, 1000&gt;::from_ticks(1000)).unwrap();
+-    }
++    async fn blink(cx: blink::Context) {
++        loop {
++            // タスクは、ループ内のどこかに
++            // `await` がある限り、無限に実行できるようになりました。
++            SysTick::delay(1000.millis()).await;
++            rprintln!("blink");
++            if *cx.local.state {
++                cx.local.led.set_high().unwrap();
++                *cx.local.state = false;
++            } else {
++                cx.local.led.set_low().unwrap();
++                *cx.local.state = true;
++            }
++        }
++    }
+ }
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="内部の仕組み"><a class="header" href="#内部の仕組み">内部の仕組み</a></h1>
+<p><strong>この章は現在作業中です。
+より完成度が高まった段階で再掲されます</strong></p>
+<p>このセクションでは、RTIC framework の内部実装を<em>高レベル</em>で説明します。
+手続きマクロ（<code>#[app]</code>）によって行われるパースやコード生成といった
+低レベルの詳細については、ここでは説明しません。主な焦点は、
+ユーザー仕様の解析と、ランタイムで使用されるデータ構造です。</p>
+<p>この内容に入る前に、embedonomicon の <a href="https://github.com/rust-embedded/embedonomicon/pull/48">concurrency</a> に関するセクションを
+読んでおくことを強く推奨します。</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="ターゲットアーキテクチャ"><a class="header" href="#ターゲットアーキテクチャ">ターゲットアーキテクチャ</a></h1>
+<h2 id="cortex-m-デバイス"><a class="header" href="#cortex-m-デバイス">Cortex-M デバイス</a></h2>
+<p>RTIC は現在すべての Cortex-M デバイスを対象にできますが、ユーザーが認識しておくべき
+重要なアーキテクチャ上の違いがいくつかあります。具体的には、RTIC で使用される
+ハードウェアによる優先度上限サポートに非常に適した Base Priority Mask Register (<code>BASEPRI</code>)
+が ARMv6-M および ARMv8-M-base アーキテクチャには存在しないため、RTIC は代わりに
+ソースマスキングを使用せざるを得ません。lock の各実装とその長所・短所の詳しい解説については、
+<a href="https://github.com/rtic-rs/rtic/blob/master/rtic/src/export.rs">src/export.rs 内の lock</a> の実装を参照してください。</p>
+<p>これらの違いはクリティカルセクションの実現方法に影響しますが、ARMv6-M/ARMv8-M-base
+では共有リソースを持つタスクを例外ハンドラにバインドできない点を除けば、機能は同じであるはずです。
+これは、それらをハードウェアでマスクできないためです。</p>
+<p>以下の表 1 は、Cortex-M プロセッサの一覧と、それぞれが採用するクリティカルセクションの
+種類を示しています。</p>
+<h4 id="表-1-プロセッサアーキテクチャ別クリティカルセクション実装"><a class="header" href="#表-1-プロセッサアーキテクチャ別クリティカルセクション実装"><em>表 1: プロセッサアーキテクチャ別クリティカルセクション実装</em></a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left">Processor</th><th style="text-align: center">Architecture</th><th style="text-align: center">優先度上限</th><th style="text-align: center">ソースマスキング</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: left">Cortex-M0</td><td style="text-align: center">ARMv6-M</td><td style="text-align: center"></td><td style="text-align: center">✓</td></tr>
+<tr><td style="text-align: left">Cortex-M0+</td><td style="text-align: center">ARMv6-M</td><td style="text-align: center"></td><td style="text-align: center">✓</td></tr>
+<tr><td style="text-align: left">Cortex-M3</td><td style="text-align: center">ARMv7-M</td><td style="text-align: center">✓</td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: left">Cortex-M4</td><td style="text-align: center">ARMv7-M</td><td style="text-align: center">✓</td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: left">Cortex-M7</td><td style="text-align: center">ARMv7-M</td><td style="text-align: center">✓</td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: left">Cortex-M23</td><td style="text-align: center">ARMv8-M-base</td><td style="text-align: center"></td><td style="text-align: center">✓</td></tr>
+<tr><td style="text-align: left">Cortex-M33</td><td style="text-align: center">ARMv8-M-main</td><td style="text-align: center">✓</td><td style="text-align: center"></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="優先度上限"><a class="header" href="#優先度上限">優先度上限</a></h3>
+<p>これについては、この書籍の <a href="#リソースの使用">リソース</a> ページで説明しています。</p>
+<h3 id="ソースマスキング"><a class="header" href="#ソースマスキング">ソースマスキング</a></h3>
+<p>Nested Vectored Interrupt Controller (NVIC) において優先度上限を直接設定できる
+<code>BASEPRI</code> レジスタがないため、RTIC は代わりに割り込みの無効化（マスキング）に依存する
+必要があります。以下の図 1 を考えてみましょう。ここでは、A は B より高い優先度を持ちながら、
+B とリソースを共有する 2 つのタスク A と B を示しています。</p>
+<h4 id="図-1-共有リソースとソースマスキング"><a class="header" href="#図-1-共有リソースとソースマスキング"><em>図 1: 共有リソースとソースマスキング</em></a></h4>
+<pre><code class="language-text">  ┌────────────────────────────────────────────────────────────────┐
+  │                                                                │
+  │                                                                │
+3 │                   Pending    Preempts                          │
+2 │             ↑- - -A- - - - -↓A─────────►                       │
+1 │          B───────────────────► - - - - B────────►              │
+0 │Idle┌─────►                             Resumes  ┌────────►     │
+  ├────┴────────────────────────────────────────────┴──────────────┤
+  │                                                                │
+  └────────────────────────────────────────────────────────────────┴──► Time
+                t1    t2        t3         t4
+</code></pre>
+<p>時刻 <em>t1</em> で、タスク B は共有リソースをロックするために、B とリソースを共有する任意の
+タスクと同じかそれより低い優先度を持つ他のすべてのタスクを選択的に無効化します（NVIC を使用）。
+この結果、<code>BASEPRI</code> のアプローチを模倣する仮想的な優先度上限が作られます。タスク A は、
+タスク B とリソースを共有するそのようなタスクの 1 つです。時刻 <em>t2</em> で、タスク A は
+タスク B によって spawn されるか、あるいは割り込み条件によってペンディング状態になりますが、
+優先度がより高いにもかかわらず、まだタスク B をプリエンプトしません。これは、タスク A が
+無効化されているため、NVIC がその開始を防いでいるからです。時刻 <em>t3</em> で、タスク B は
+NVIC でタスク群を再度有効化することでロックを解放します。タスク A はペンディング状態であり、
+かつタスク B より高い優先度を持つため、直ちにタスク B をプリエンプトし、データ競合の危険なく
+共有リソースを使用できます。時刻 <em>t4</em> で、タスク A は完了し、実行コンテキストを B に返します。</p>
+<p>ソースマスキングは NVIC の使用に依存するため、HardFault、SVCall、PendSV、SysTick
+などのコア例外ソースは、他のタスクとデータを共有できません。</p>
+<h2 id="risc-v-デバイス"><a class="header" href="#risc-v-デバイス">RISC-V デバイス</a></h2>
+<p>現在のすべての RISC-V バックエンドは、優先度上限を用いる Cortex-M デバイスと
+同様の方式で動作します。したがって、この書籍の <a href="#リソースの使用">リソース</a>
+ページがよい参考資料になります。ただし、これらのバックエンドの一部は完全な
+ハードウェア実装ではなく、物理的な割り込みコントローラをソフトウェアでエミュレート
+します。そのため、これらのバックエンドはハードウェアタスクを実装せず、必要なのは
+ソフトウェアタスクのみです。さらに、これらのターゲットではソフトウェアタスクの数は
+利用可能な物理割り込みソースの数によって制限されません。</p>
+<p>以下の表 2 では、利用可能な RISC-V バックエンドを比較しています。</p>
+<h4 id="表-2-プロセッサアーキテクチャ別クリティカルセクション実装"><a class="header" href="#表-2-プロセッサアーキテクチャ別クリティカルセクション実装"><em>表 2: プロセッサアーキテクチャ別クリティカルセクション実装</em></a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: center">バックエンド</th><th style="text-align: center">対応ターゲット</th><th style="text-align: center">バックエンド固有の設定</th><th style="text-align: center">ハードウェアタスク</th><th style="text-align: center">ソフトウェアタスク</th><th style="text-align: center">タスク数が HW によって制限されるか</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align: center"><code>riscv-esp32c3-backend</code></td><td style="text-align: center">ESP32-C3 のみ</td><td style="text-align: center"></td><td style="text-align: center">✓</td><td style="text-align: center">✓</td><td style="text-align: center">✓</td></tr>
+<tr><td style="text-align: center"><code>riscv-mecall-backend</code></td><td style="text-align: center">任意の RISC-V デバイス</td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: center">✓</td><td style="text-align: center"></td></tr>
+<tr><td style="text-align: center"><code>riscv-clint-backend</code></td><td style="text-align: center">CLINT ペリフェラル搭載デバイス</td><td style="text-align: center">✓</td><td style="text-align: center"></td><td style="text-align: center">✓</td><td style="text-align: center"></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="riscv-mecall-backend"><a class="header" href="#riscv-mecall-backend"><code>riscv-mecall-backend</code></a></h3>
+<p>RTIC がコンパイル時にそれらを生成するため、<code>#[app]</code> 属性でディスパッチャの一覧を
+指定する必要はありません。優先度レベルは 0（<code>idle</code> タスク用）から 255 までです。</p>
+<h3 id="riscv-clint-backend"><a class="header" href="#riscv-clint-backend"><code>riscv-clint-backend</code></a></h3>
+<p>RTIC がコンパイル時にそれらを生成するため、<code>#[app]</code> 属性で <code>dispatchers</code> の一覧を
+指定する必要はありません。優先度レベルは 0（<code>idle</code> タスク用）から 255 までです。</p>
+<p>RTIC がアプリケーションを実行している HART を識別するために使用する ID 番号を
+認識できるよう、<code>#[app]</code> 属性には <code>backend</code> 固有の設定を <strong>必ず</strong> 含める必要があります。
+たとえば、<code>e310x</code> チップでは、最小限のアプリケーションを次のように設定します。</p>
+<pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[rtic::app(device = e310x, backend = H0)]
+mod app {
+  // ここにアプリケーションを記述します
+}
+<span class="boring">}</span></code></pre>
+<p>このようにして、RTIC は常に HART <code>H0</code> を参照します。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="mermaid-69e1d02a.min.js"></script>
+        <script src="mermaid-init-4533fb11.js"></script>
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+
+    </div>
+    </body>
+</html>
