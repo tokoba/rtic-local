@@ -1,0 +1,264 @@
+# Shimai Translate Result
+
+- **Status**: success
+- **Source Directory**: C:\Drive\rust\blessed\rtic-local\book\en
+- **Output Directory**: C:\Drive\rust\blessed\rtic-local\book\jp
+- **Target Lang**: ja
+- **Source Lang**: en
+- **Concurrency**: 5
+- **Model**: gpt-5.4
+
+## Totals
+- **Total files**: 46
+- **Success**: 46
+- **Failure**: 0
+- **Skipped**: 0
+- **Retries**: 0
+- **Total chars**: 118624
+- **Glossary applied (files)**: 0
+
+## Processed (Success)
+- `C:\Drive\rust\blessed\rtic-local\book\en\archive\migration\migration_rtic.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\archive\migration\migration_rtic.md`
+  - chars: 721
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\archive\by_example\app_task.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\archive\by_example\app_task.md`
+  - chars: 580
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\archive\migration.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\archive\migration.md`
+  - chars: 80
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\archive\by_example\tips\from_ram.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\archive\by_example\tips\from_ram.md`
+  - chars: 1293
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\awesome_rtic.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\awesome_rtic.md`
+  - chars: 176
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\SUMMARY.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\SUMMARY.md`
+  - chars: 2006
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\app_idle.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\app_idle.md`
+  - chars: 1787
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\archive\by_example\monotonic.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\archive\by_example\monotonic.md`
+  - chars: 1975
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\app.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\app.md`
+  - chars: 1721
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\app_minimal.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\app_minimal.md`
+  - chars: 593
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\archive\migration\migration_v4.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\archive\migration\migration_v4.md`
+  - chars: 4753
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\app_init.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\app_init.md`
+  - chars: 1192
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\archive\migration\migration_v5.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\archive\migration\migration_v5.md`
+  - chars: 6288
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\app_priorities.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\app_priorities.md`
+  - chars: 2446
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\delay.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\delay.md`
+  - chars: 3205
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\message_passing.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\message_passing.md`
+  - chars: 534
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\hardware_tasks.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\hardware_tasks.md`
+  - chars: 1218
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\tips\index.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\tips\index.md`
+  - chars: 49
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\tips\destructureing.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\tips\destructureing.md`
+  - chars: 334
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\channel.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\channel.md`
+  - chars: 3573
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\tips\static_lifetimes.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\tips\static_lifetimes.md`
+  - chars: 728
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\tips\indirection.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\tips\indirection.md`
+  - chars: 865
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\tips\view_code.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\tips\view_code.md`
+  - chars: 1797
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\software_tasks.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\software_tasks.md`
+  - chars: 4014
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\internals\access.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\internals\access.md`
+  - chars: 3043
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example.md`
+  - chars: 4236
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\internals\late-resources.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\internals\late-resources.md`
+  - chars: 2098
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\internals\interrupt-configuration.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\internals\interrupt-configuration.md`
+  - chars: 1483
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\by-example\resources.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\by-example\resources.md`
+  - chars: 5808
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\internals\non-reentrancy.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\internals\non-reentrancy.md`
+  - chars: 1446
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\internals\ceilings.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\internals\ceilings.md`
+  - chars: 1912
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\internals.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\internals.md`
+  - chars: 332
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\migration_v1_v2\async_tasks.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\migration_v1_v2\async_tasks.md`
+  - chars: 1290
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\internals\critical-sections.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\internals\critical-sections.md`
+  - chars: 10636
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\internals\timer-queue.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\internals\timer-queue.md`
+  - chars: 9734
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\migration_v1_v2\rtic-sync.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\migration_v1_v2\rtic-sync.md`
+  - chars: 286
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\migration_v1_v2\monotonics.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\migration_v1_v2\monotonics.md`
+  - chars: 691
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\internals\tasks.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\internals\tasks.md`
+  - chars: 9590
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\migration_v1_v2\complete_example.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\migration_v1_v2\complete_example.md`
+  - chars: 4456
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\internals\targets.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\internals\targets.md`
+  - chars: 4547
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\rtic_and_embassy.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\rtic_and_embassy.md`
+  - chars: 930
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\migration_v1_v2.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\migration_v1_v2.md`
+  - chars: 941
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\starting_a_project.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\starting_a_project.md`
+  - chars: 1537
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\rtic_vs.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\rtic_vs.md`
+  - chars: 1437
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\monotonic_impl.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\monotonic_impl.md`
+  - chars: 2250
+  - front matter: None
+  - BOM: false
+  - glossary: no
+- `C:\Drive\rust\blessed\rtic-local\book\en\src\preface.md` → `C:\Drive\rust\blessed\rtic-local\book\jp\src\preface.md`
+  - chars: 8013
+  - front matter: None
+  - BOM: false
+  - glossary: no
+
+## Processed (Failure)
+*None*
+
+## Skipped
+*None*
+
+## Front Matter & BOM
+- **Formats (detected)**:
+  - None: 46 files
+- **BOM preserved**: 0 files
+
+---
+Generated by Shimai MCP (Rust)
