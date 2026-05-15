@@ -1,7 +1,7 @@
 **/*.rs.bk
 .#*
 .gdb_history
-/book/*/book
+# /book/*/book
 /target
 Cargo.lock
 *.hex
@@ -11,3 +11,5 @@ book-target/
 .vscode/
 *qemu.log
 *qemuoutput.log
+
+.log/
